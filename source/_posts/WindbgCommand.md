@@ -1,6 +1,8 @@
 title: Windbg命令
 date: 2015-09-15 20:53:31
-tags: 调试器
+tags: 
+- 调试器
+categories: 调试器
 ---
 本文并非原创，转载自[Exploit开发系列教程-Windbg](http://drops.wooyun.org/tips/6813)
 <!--more-->

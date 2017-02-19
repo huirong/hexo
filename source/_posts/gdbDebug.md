@@ -1,10 +1,13 @@
 title: GDB常用命令
 date: 2015-04-30 13:54:06
-tags: 调试器
+tags: 
+- 调试器
+- Linux
+categories: 调试器
 ---
 调试器（比如GDB）能让你观察另一个程序在执行时的内部活动，或程序出错时发生了什么。
 <!-- more -->
-#GDB简介
+# I、GDB简介
 GDB主要能为你做四件事(包括为了完成这些事而附加的功能)，帮助你找出程序中的错误。
  - 运行你的程序，设置所有的能影响程序运行的东西。
  - 保证你的程序在指定的条件下停止。
@@ -17,8 +20,8 @@ GDB主要能为你做四件事(包括为了完成这些事而附加的功能)，
 -o 的意思是指定可执行文件名。 
 (gcc 的命令行参数有一大堆，有兴趣可以自己去看看。) 
 
-#GDB命令
-###<font color="orange">启动</font>
+# II、GDB命令
+## ① <font color="orange">启动</font>
  - gdb $program
 program就是你的执行文件，一般在当前目录下
  - gdb $program core
@@ -26,7 +29,7 @@ program就是你的执行文件，一般在当前目录下
  - gdb $program $pid
 如果你的程序是一个服务程序，那么你可以指定这个服务程序运行时的进程ID。gdb会自动attach上去，并调试他。program应该在PATH环境变量中搜索得到。
 
-###<font color="orange">运行</font>
+## ② <font color="orange">运行</font>
  - r ：运行程序
  - continue/c ：继续运行
  - next/n ：下一行，但不进入函数调用
@@ -35,12 +38,12 @@ program就是你的执行文件，一般在当前目录下
  - finish/fini ：继续运行至当前栈帧/函数刚刚退出
  - until/u ：  继续运行至某一行，在循环中，u可以实现运行至循环刚刚退出，但这取决于循环的实现
  
-### <font color="orange">查看源码</font>
+## ③ <font color="orange">查看源码</font>
  - list/l linenum/function ：查看第linenum行或者function所在行附近的10行
  - list/l ：查看上一次list命令列出的代码后面的10行
  - list/l m,n ：查看从第m行到第n行的源码
  
-### <font color="orange">断点</font>
+## ④ <font color="orange">断点</font>
  - break/b linenum/function ：在第linenum行或函数function处停住
  - break/b +/-offset ：在当前行号的前面/后面的offset行停住，offset为自然数
  - break filename:linenum ：在源文件filename的linenum行处停住
@@ -51,7 +54,7 @@ program就是你的执行文件，一般在当前目录下
 查看断点
  - info break
 
-###<font color="orange">查看寄存器</font>
+## ⑤ <font color="orange">查看寄存器</font>
  - info registers ：查看寄存器的情况（除了浮点寄存器）
  - info all-registers ：查看所有寄存器的情况
  - info registers $regname  ：查看制定寄存器的情况，例如 info $rbp
@@ -59,11 +62,11 @@ program就是你的执行文件，一般在当前目录下
 修改寄存器的值
  - set $regname value ：改变指定寄存器的值，例如 set $rbx 0x5
 
-###<font color="orange">查看变量的值</font>
+## ⑥ <font color="orange">查看变量的值</font>
  - p varable ：打印变量varable的值
  - p &varable ：打印变量varable的地址
 
-###<font color="orange">查看帧栈信息</font>
+## ⑦ <font color="orange">查看帧栈信息</font>
 查看调用栈
  - backtrace/bt ：显示程序的调用栈信息
  - backtrace/bt n ：显示程序的调用栈信息，只显示栈顶n帧
@@ -80,7 +83,7 @@ program就是你的执行文件，一般在当前目录下
  * info locals ：查看当前帧中的局部变量
  * info catch ：查看当前帧中的异常处理器
 
-###<font color="orange">退出</font>
+## ⑧ <font color="orange">退出</font>
  - quit/q ：退出GDB调试，若退出时被调试的程序尚未结束，GDB会提示，请求确认
 
 

@@ -2,8 +2,9 @@ title: Intel Pin 2 ：示例
 date: 2015-12-30 21:09:35
 tags: Pin
 ---
-为了说明如何编写Pintools，这里简单介绍几个简单的例子。
-对应的源码都可以在 source/tools/ManualExamples 目录中找到。
+** analysis（分析） ** 和 ** instrumentation（桩） ** 函数定义参见 [Intel Pin 1 ：如何使用Pin进行插桩](http://huirong.github.io/2015/12/30/Intel-Pin-introduction/)
+为了说明如何编写 Pintools，这里介绍几个简单的例子。
+对应的源码都在 source/tools/ManualExamples 目录中。
 <!-- more -->
 # Building the Example Tools
 首先进入 source/tools/ManualExamples 目录
@@ -31,22 +32,22 @@ cd source/tools/ManualExamples
 由于使用 make build tools，首先需要安装 cygwin make
 
 # Simple Instruction Count (Instruction Instrumentation) 
-下面的例子是统计程序中所有执行过的指令数。在每个指令前，Pin插入 docount 调用代码，当程序退出时，结果默认保存在 inscount.out文件中。
+下面的例子是统计程序中所有执行过的指令数。在每个指令前，Pin插入 docount 函数，当程序退出时，结果默认保存在 inscount.out文件中。
 
 运行指令和结果如下：
 ```
-../../../pin -t obj-intel32/inscount0.so -- /bin/ls
+../../../pin -t obj-ia32/inscount0.so -- /bin/ls
 
 cat inscount.out
 ```
 ![](http://ww4.sinaimg.cn/large/005CA6ZCgw1ezqzh1lcl2j30nk0al0uu.jpg)
 
-下例中的 KNOB 用于重定向输出，命令行选项"-o <file_name>"，添加在工具名称和"--"之间，如下所示：
+下例中的 KNOB 用于重定向输出，命令行选项 "-o <file_name>" ，添加在 tool 名称和"--"之间，如下所示：
 ```
-../../../pin -t obj-intel64/inscount0.so -o inscount0.log -- /bin/ls
+../../../pin -t obj-ia32/inscount0.so -o inscount0.log -- /bin/ls
 ```
 
-可以在 source/tools/ManualExamples/inscount0.cpp 找到该示例程序
+源程序详见 source/tools/ManualExamples/inscount0.cpp 
 ```
 #include <iostream>
 #include <fstream>
@@ -118,9 +119,9 @@ int main(int argc, char * argv[])
 ```
 
 # Instruction Address Trace (Instruction Instrumentation)
-上例中，在分析阶段没有传参，本节将介绍如何传递参数，参数可以是指令指针、当前寄存器的值、有效内存地址、常数等。查看完整参数类型列表，请参见[IARG_TYPE.](https://software.intel.com/sites/landingpage/pintool/docs/67254/Pin/html/group__INST__ARGS.html#g7e2c955c99fa84246bb2bce1525b5681)
+上例并没有传参给 analysis 函数 docount ，本节将介绍如何传递参数，参数可以是指令指针、当前寄存器的值、有效内存地址、常数等常见类型。查看完整参数类型列表，请参见[IARG_TYPE.](https://software.intel.com/sites/landingpage/pintool/docs/67254/Pin/html/group__INST__ARGS.html#g7e2c955c99fa84246bb2bce1525b5681)
 
-和上例相比，做了微小改动，使用INS_InsertCall 函数传递即将执行的指令地址，并使用printip 替换 docount ，打印指令地址。默认输出函数为 itrace.out。
+本示例用于打印执行过的指令的地址。程序编码上，和上例相比，做了微小改动，使用INS_InsertCall 函数传递即将执行的指令地址，并使用printip 替换 docount ，打印指令地址。结果保存在默认输出文件 itrace.out 中。
 
 运行指令和结果如下：
 ```
@@ -193,14 +194,14 @@ int main(int argc, char * argv[])
 ```
 
 # Memory Reference Trace (Instruction Instrumentation)
-上例是插装所有指令，但有时只想对一类指令插装，如内存操作或分支指令。
-可以通过调用包含 分类和检查功能的Pin API实现，具体描述参见[这里](https://software.intel.com/sites/landingpage/pintool/docs/67254/Pin/html/group__INS__BASIC__API.html)。此外，这是 IA-32 ISA 特有的。
+上两个例子都是插桩所有指令，但有时只想对一类指令插桩，如内存操作或分支指令。
+可以通过调用包含 分类和检查指令功能的Pin API实现，具体描述参见[这里](https://software.intel.com/sites/landingpage/pintool/docs/67254/Pin/html/group__INS__BASIC__API.html)。此外，<font color="red">此功能是 IA-32 ISA 特有的。</font>
 
-此例展示如何通过检查指令，选择性插装，并生成程序引用内存的轨迹。这有助于调试程序和模拟处理器数据缓存。
+此例展示如何通过检查指令，选择性插桩，并生成程序引用的内存的轨迹。这有助于调试程序和模拟处理器数据缓存。
 
-本例中，只插装 读、写内存指令。由于 instrumentation函数值调用一次，而 每次执行指令时都会调用analysis函数，因此只对内存操作插装比上例中插装每条指令快得多。
+本例中，只插桩 读、写内存指令。由于插装函数只调用一次，而每次执行指令时都会调用分析函数，因此只对内存操作插桩比上例中插桩每条指令快得多。
 
-运行命令和结果如下“
+运行命令和结果如下：
 ```
 ../../../pin -t obj-ia32/pinatrace.so -- /bin/ls
 
@@ -306,4 +307,4 @@ int main(int argc, char *argv[])
 ```
 
 # 参考文献
-[Pin 用户手册](https://software.intel.com/sites/landingpage/pintool/docs/67254/Pin/html/)
+[Pin 用户手册：Examples](https://software.intel.com/sites/landingpage/pintool/docs/67254/Pin/html/index.html#EXAMPLES)

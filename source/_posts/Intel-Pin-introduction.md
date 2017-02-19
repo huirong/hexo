@@ -1,4 +1,4 @@
-title: Intel Pin 1 ：如何使用Pin进行插装
+title: Intel Pin 1 ：如何使用Pin进行插桩
 date: 2015-12-30 20:31:36
 tags: Pin
 ---
@@ -19,11 +19,11 @@ Pin的桩代码都会被实际执行的，不论他们位于哪里。大体上�
 
 这两个组件就是** 桩 **和 ** 分析 ** 代码。两个组件都在一个单独的可执行体中，即Pintool。Pintools可以认为是在Pin中的的插件，它能够修改生成代码的流程。
 
-Pintool注册一些桩回调函数在Pin中，每当Pin生成新的代码时就调用回调函数。这些回调函数代表了桩组件。它可以检查将要生成的代码，得到它的静态属性，并且决定是否需要以及在哪里插入调用来分析函数。
+Pintool在Pin中注册一些 ** 桩 ** 回调函数，每当Pin生成新的代码时就调用回调函数。这些回调函数代表了 ** 桩 ** 组件。它可以检查将要生成的代码，得到它的静态属性，并且决定是否需要以及在哪里插入 ** 分析函数 **。
 
-分析函数收集关于程序的数据。Pin保证整数和浮点指针寄存器的状态在必要时会被保存和回复，允许传递参数给（分析）函数。
+ ** 分析函数 ** 收集关于程序的数据。Pin保证整数和浮点指针寄存器的状态在必要时会被保存和回复，允许传递参数给（分析）函数。
 
-Pintool也可以注册一些事件通知回调，比如线程创建和fork，这些回调大体上用于数据收集或者初始化与清理。
+Pintool也可以注册一些事件通知类回调函数，比如线程创建和fork，这些回调大体上用于数据收集或者初始化与清理。
 
 # Observations
 由于Pintool类似插件一样工作，所以它必须处于Pin与被插桩的可执行文件的地址空间。这样，Pintool就能够访问可执行文件的所有数据。它也跟可执行文件共享文件描述符与进程其他信息。
@@ -32,10 +32,11 @@ Pin和Pintool从第一条指令控制程序。对于与共享库一起编译的�
 
 当编写tools时，最重要的是调整分析代码而不是桩代码。因为桩代码执行一次，而分析代码执行许多次。
 
-# Instrumentation Granularity（插装粒度）
+# Instrumentation Granularity（插桩粒度）
+## 1、trace instrumentation（踪迹插桩）
 如上所述，Pin的插桩是实时的。插桩发生在一段代码序列执行之前。我们把这种模式叫做踪迹插桩（trace instrumentation）。
 
-踪迹插桩让Pintool在可执行代码每一次执行时都能进行监视和插装。trace通常开始于选中的分支目标并结束于一个条件分支，包括调用(call)和返回(return)。Pin能够保证trace只在最上层有一个入口，但是可以有很多出口。如果在一个trace中发生分支，Pin从分支目标开始构造一个新的trace。Pin根据基本块(BBL)分割trace。一个基本块是一个有唯一入口和出口的指令序列。基本块中的分支会开始一个新的trace也即一个新的基本块。通常为每个基本块而不是每条指令插入一个分析调用。减少分析调用的次数可以提高插装的效率。trace插装利用了TRACE_AddInstrumentFunction API call。
+踪迹插桩让Pintool在可执行代码每一次执行时都能进行监视和插桩。trace通常开始于选中的分支目标并结束于一个非条件分支（ unconditional branch ），包括调用(call)和返回(return)。Pin能够保证trace只在最上层有一个入口，但是可以有很多出口。如果在一个trace中发生分支，Pin从分支目标开始构造一个新的trace。Pin根据基本块(BBL)分割trace。一个基本块是一个有唯一入口和出口的指令序列。基本块中的分支会开始一个新的trace也即一个新的基本块。通常为每个基本块而不是每条指令插入一个分析调用。减少分析调用的次数可以提高插桩的效率。trace插桩利用了TRACE_AddInstrumentFunction API call。
 
 注意，虽然Pin从程序执行中动态发现执行流，Pin的BBL与编译原理中的BBL定义不同。如，考虑生成下面的switch statement：
 ```
@@ -60,64 +61,71 @@ switch(i)
 .L4:
         addl    $1, -4(%ebp)
 ```
-在经典的基本块中，每一个addl指令会成为一个单指令基本块。但是Pin会对不同的这几种不同的switch cases产生包含4条指令的BBL(当遇到.L7 case），3个基本块（当遇到.L6 case），如此类推。这就是说Pin的BBL个数会跟用书上的定义的BBL不一样。例如，这里当代码分支到.L7时，有1个BBL，但是有四个经典的基本块被执行。
+在经典的基本块中，每一个addl指令会成为一个单指令基本块。然而对于不同的 switch cases，Pin 会产生包含 4 条指令的 BBL（当遇到.L7 case），3 条指令的基本块（当遇到.L6 case），如此类推。这就是说Pin的BBL个数会跟用书上的定义的BBL不一样。例如，这里当代码分支到.L7时，只有1个BBL，但是有四个经典的基本块被执行。
 
-Pin也会拆散其他指令为BBL，比如cpuid,popf,和rep前缀的指令。因为rep前缀治理那个被当做隐式的循环，如果一个rep前缀指令不止循环一次，在第一次之后将会产生一个单指令的BBL，所以这种情形会产生比你预期多的基本块。
+Pin也会拆散其他指令为BBL，比如cpuid,popf,和rep前缀的指令。因为rep前缀指令被当做隐式的循环，如果一个rep前缀指令不止循环一次，在第一迭代之后将会产生一个单指令的BBL，所以这种情形会产生比你预期多的基本块。
 
-为了方便编写Pintool，Pin还提供了指令插桩模式（instruction instrumentation），让工具可以监视和插装每一条指令。本质上来说这两种模式是一样的，编写Pintool时不需要在为trace的每条指令反复处理。就像在trace插桩模式下一样，特定的基本块和指令可能会被生成很多次。指令插装用到了 INS_AddInstrumentFunction API call。
+## 2、instruction instrumentation（指令插桩）
+为了方便编写Pintool，Pin还提供了指令插桩模式（instruction instrumentation mode），让工具可以监视和插桩每一条指令。本质上来说这两种模式是一样的，编写Pintool时不需要在为trace的每条指令反复处理。就像在trace插桩模式下一样，特定的基本块和指令可能会被生成很多次。指令插桩用到了 INS_AddInstrumentFunction API call。
 
-有时，进行不同粒度的插桩比trace更有用。Pin对这种模式提供了两种模式：镜像和函数插桩。这些模式是通过缓存插桩要求，因此需要额外的空间，这些模式也称作提前插桩。
+## 3、Image instrumentation（镜像插桩）
+有时，进行不同粒度的插桩比trace更有用。Pin对这种模式提供了两种模式：** 镜像 **和 ** 函数 ** 插桩。这些模式是通过缓存插桩要求，因此需要额外的空间，这些模式也称作提前插桩。
 
-镜像插装让Pintool在IMG第一次导入的时候对整个image进行监视和插装。Pintool的处理范围可以是镜像中的每个块(section，SEC)，块中的每个函数(routine, RTN)，函数中的每个指令（instruction, INS）。插装可以在一个函数或者一条指令开始执行之前或者结束执行之后执行。镜像插装用到了 IMG_AddInstrumentFunction API call。镜像插装依靠符号信息判断函数的边界，因此需要在PIN_Init之前调用PIN_InitSymbols。
+ ** 镜像 ** 插桩让Pintool在IMG第一次导入的时候对整个image进行监视和插桩。Pintool的处理范围可以是镜像中的每个块(section，SEC)，块中的每个函数(routine, RTN)，函数中的每个指令（instruction, INS），因此可以在函数执行前后或指令执行前后进行插桩。
+镜像插桩用到了 IMG_AddInstrumentFunction API call。镜像插桩依靠符号信息判断函数的边界，因此需要在PIN_Init之前调用PIN_InitSymbols。
 
-函数插装让Pintool在线程第一次调用之前监视和插装整个函数。Pintool的处理范围可以是函数里的每条指令。这里没有足够的信息把指令归并成基本块。插装可以在一个函数或者一条指令开始执行之前或者结束执行之后执行。函数插桩时Pintool的作者能够更方便的在镜像插桩过程中便利各个sections。
+## 4、Routine instrumentation（函数插桩）
+ ** 函数 ** 插桩让Pintool在它所在的镜像首次加载时监视和插桩整个函数。Pintool的处理范围可以是函数里的每条指令。这里没有足够的信息把指令归并成基本块。可以在函数或指令执行前后进行插桩。函数插桩时Pintool的编写者能够更方便的在镜像插桩过程中遍历各个sections。
+函数插桩用到了RTN_AddInstrumentFunction API call。插桩在函数结束后不一定能可靠地工作，因为当最后出现调用时无法判断何时返回。
 
-函数插装用到了RTN_AddInstrumentFunction API call。插装在函数结束后不一定能可靠地工作，因为当最后出现调用时无法判断何时返回。
-
-注意在镜像插桩和函数插桩中，不可能知道一个(分析）函数会被执行（因为这些插桩实发生在镜像被载入时）。在Trace和Instruction中只有被执行的代码才会被遍历。
+注意在镜像插桩和函数插桩中，不可能知道一个(分析）函数会被执行（因为这些插桩发生在镜像载入时）。在Trace和Instruction中只有被执行的代码才会被遍历。
 
 # Managed platforms support
-Pin支持所有可执行文件包括托管的二进制文件。从Pin的角度来看，托管文件是一种自修改程序。有一种方法可以使Pin区分即时编译的代码(Jitted代码)和所有其他动态生成的代码,并且将Jitted代码与合适的管理函数联系在一起。为了支持这个功能，运行管理托管平台的JIT compiler必须支持Jit Profiling API。
+Pin支持所有可执行文件包括托管的二进制文件。从Pin的角度来看，托管文件是一种自修改程序。有一种方法可以使Pin区分即时编译代码(Jitted代码)和其他所有动态生成的代码,并且将Jitted代码与合适的管理函数联系在一起。为了支持这个功能，运行管理托管平台的JIT compiler必须支持Jit Profiling API。
 
 必须支持下面的功能：
- - RTN_IsDynamic() API用来识别动态生成的代码。一个函数必须被Jit Profiling API标记为动态生成的。
- - 一个Pin tool可以使用RTN_AddInstrumentFunction API加入Jitted函数
+ - RTN_IsDynamic() API,用来识别动态生成的代码。一个函数必须被Jit Profiling API标记为动态生成的。
+ - Pin tool,可以使用RTN_AddInstrumentFunction API 插桩 Jitted 函数
 
 为了支持托管平台，以下条件必须满足：
  - 设置INTEL_JIT_PROFILER32和INTEL_JIT_PROFILER64环境变量，以便占用pinjitprofiling dynamic library
 对Windows
-```
-set INTEL_JIT_PROFILER32=<The Pin kit full path>\ia32\bin\pinjitprofiling.dll
-set INTEL_JIT_PROFILER64=<The Pin kit full path>\intel64\bin\pinjitprofiling.dll
-```
+    
+    ```
+    set INTEL_JIT_PROFILER32=<The Pin kit full path>\ia32\bin\pinjitprofiling.dll
+    set INTEL_JIT_PROFILER64=<The Pin kit full path>\intel64\bin\pinjitprofiling.dll
+    ```
+
     对Linux
-```
-setenv INTEL_JIT_PROFILER32 <The Pin kit full path>/ia32/bin/libpinjitprofiling.so
-setenv INTEL_JIT_PROFILER64 <The Pin kit full path>/intel64/bin/libpinjitprofiling.so
-```
+   
+    ```
+    setenv INTEL_JIT_PROFILER32 <The Pin kit full path>/ia32/bin/libpinjitprofiling.so
+    setenv INTEL_JIT_PROFILER64 <The Pin kit full path>/intel64/bin/libpinjitprofiling.so
+    ```
+
  - 在Pin命令行为Pin tool加入knob support_jit_api选项
 
 # Symbols
-Pin利用符号对象（SYM）提供了对函数名字的访问。符号对象仅仅提供了在程序中的关于函数的符号。其他类型的符号（如数据符号）需要通过tool独立获取。
+Pin可利用符号对象（SYM）访问函数名。符号对象仅仅提供了在程序中的关于函数的符号。其他类型的符号（如数据符号）需要通过tool单独获取。
 
-在Windows上，可以通过dbghelp.dll实现这个功能。注意在桩函数中使用dbghelp.dll并不安全，可能会导致死锁。一个可能的解决方案是通过一个不同的未被插桩的进程得到符号。
+在Windows上，可以通过dbghelp.dll实现这个功能。注意在 桩函数 中使用dbghelp.dll并不安全，可能会导致死锁。一个可能的解决方案是通过一个不同的未被插桩的进程得到符号。
 
 在Linux上，libefl.so或者libdwarf.so可以用来获取符号信息。
 
 为了通过名字访问函数必须先调用PIN_InitSymbols。
 
 # Floating Point Support in Analysis Routines
-Pin在执行各种分析函数时保持者程序的浮点指针状态。
+Pin在执行各种分析函数时保持着程序的浮点指针状态。
 
 IARG_REG_VALUE不能作为浮点指针寄存器参数传给分析函数。
 # Instrumenting Multi-threaded Applications
 给多线程程序插桩时，多个合作线程访问全局数据时必须保证tool是线程安全的。Pin试图为tool提供传统C++程序的环境，但是在一个Pintool是不可以使用标准库的。比如，Linux tool不能使用pthread，Windows不能使用Win32API管理线程。作为替代，应该使用Pin提供的锁和线程管理API。
 
-Pintools在插入桩函数时，不需要添加显示的锁，因为Pin是在得到VM lock内部锁之后执行这些函数的。然而，Pin并行执行分析代码和替代函数，所以Pintools如果访问这些函数，可能需要为全局数据加锁。
+Pintools在插入桩函数时，不需要添加显示锁，因为Pin是在得到VM lock内部锁之后执行这些函数的。然而，Pin并行执行分析代码和替代函数，所以Pintools如果访问这些函数，可能需要为全局数据加锁。
 
 Linux上的Pintools需要注意在分析函数或替代函数中使用C/C++标准库函数，因为链接到Pintools的C/C++标准函数不是线程安全的。一些简单C/C++函数本身是线程安全的，在调用时不需要加锁。但是，Pin没有提供一个线程安全函数的列表。如果有怀疑，需要在调用库函数的时候加锁。特别的，errno变量不是多线程安全的，使用这个变量的tool需要提供自己的锁。注意这些限制仅存在Unix平台，这些库函数在Windows上是线程安全的。
 
-Pin可以在线程开始和结束的时候插入回调函数。这为Pintool提供了一个比较方便的地方分配和操作线程局部数据。
+Pin可以在线程开始和结束的时候插入回调函数。这有助于 Pintool 分配和操作线程局部数据，并存放于线程局部内存。
 
 Pin也提供了一个分析函数的参数（ARG_THREAD_ID），用于传递Pin指定的线程ID给调用的线程。这个ID跟操作系统的线程ID不同，它是一个从0开始的小整数。可以作为线程数据或是用户锁的索引。
 

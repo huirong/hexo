@@ -1,4 +1,4 @@
-title: Intel Pin 3 ：示例（再续）
+title: Intel Pin 2 ：示例（再续）
 date: 2016-01-08 10:02:33
 tags: Pin
 ---
@@ -110,7 +110,7 @@ int main(int argc, char * argv[])
 ```
 
 # Order of Instrumentation
-Pin提供多种方法控制analysis调用的执行顺序，可以通过插入操作（IPOINT）和调用顺序函数（CALL_ORDER）实现。
+Pin提供多种方法控制分析函数的执行顺序，可以通过插入操作（IPOINT）和调用顺序函数（CALL_ORDER）实现。
 下例展示了，用三种不同的方式插装所有的返回指令。另一个例子可参见 source/tools/InstrumentationOrderAndVersion.
 
 ```
@@ -549,8 +549,7 @@ int main(int argc, char *argv[])
 ```
 
 # Instrumenting Threaded Applications
-下例演示了使用 ThreadStart() 和 ThreadFini() 通知回调函数。尽管 
-ThreadStart() 和 ThreadFini() 是在 VM 和 客户机锁 中执行，但他们依然同其他 analysis 例程竞争共享资源，使用  PIN_GetLock() 解决此问题。
+下例演示了使用 ThreadStart() 和 ThreadFini() 通知回调函数。尽管 ThreadStart() 和 ThreadFini() 是在 VM 和 客户机锁 中执行，但他们依然同其他 analysis 例程竞争共享资源，使用  PIN_GetLock() 解决此问题。
 
 注意：当运行多线程程序时，如果Pin tool回调函数中有打开文件操作，会出现死锁。
 解决方法：在 main 函数中打开文件，并使用 线程ID 标记数据，具体参见 source/tools/ManualExamples/buffer_windows.cpp 

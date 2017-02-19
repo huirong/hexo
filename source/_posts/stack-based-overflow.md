@@ -1,17 +1,20 @@
 title: exploit编写教程1：基于栈的溢出
 date: 2015-12-15 21:21:14
-tags: exploit编写
+tags: 
+- 缓冲区溢出
+- exploit 编写
+categories: exploit 编写
 ---
 一直都想系统学习exploit编写，最近找到个不错的网站[Corelan Team](https://www.corelan.be/),准备按照上面的教程学习，这是第一篇古老的buffer overflow
 <!-- more -->
 
-# 试验环境
+# Ⅰ、试验环境
 - 测试平台： Microsoft Windows XP SP3
 - 漏洞软件：Easy RM to MP3 Converter（版本2.7.3.700）
 - 分析工具：Immunity Debugger
 - 漏洞描述：通过创建一个恶意的.m3u文件将触发Easy RM to MP3 Converter (version 2.7.3.700)缓冲区溢出利用。
 
-# 漏洞触发
+# Ⅱ、漏洞触发
 我选用Python语言编写脚本，首先构造一个30000个字符的.m3u文件，前面25000全为’A’，后5000个为’B’。
 ```
 #!/usr/bin/python
@@ -27,7 +30,7 @@ f.close()
 
 从上图可知，溢出之后的返回地址是0x42424242，也就是’BBBB’，这说明要覆盖的EIP在25000到30000之间。下面使用Immunity的查件mona来进行精确定位。
 
-# EIP定位
+# Ⅲ、EIP定位
 使用Immunity Debugger -> open -> RM2MP3Converter.exe ，F9运行，然后点击load -> test.m3u
 回到Immunity Debugger，创建包含5000个字符的pattern
 在命令行输入：
@@ -78,21 +81,21 @@ f.close()
 
 我们可以看到，EIP现在是4个B，偏移正确，下面就是如何修改 EIP
 
-# 寻找shellcode存放的地址空间
+# Ⅳ、寻找shellcode存放的地址空间
 再次使用上面.m3u文件，崩溃时，打开栈的窗口
 
 ![](http://ww3.sinaimg.cn/large/005CA6ZCgw1ez0pbcdfiqj30ap0cfdhq.jpg)
 
 我们看到在ESP此时为000FF730，EIP到这里还有4个字节。ESP开始用于存放shellcode。
 
-# 查找jmp esp地址
+# V、查找jmp esp地址
 再次加载目标程序，F9之后Pause，在CPU窗口，右键 Search For ->All commands in All modules，在之后的窗口输入jmp esp。
 
 ![](http://ww2.sinaimg.cn/large/005CA6ZCgw1ez0pcw5iv0j30mx03uabs.jpg)
 
 选一个7C874413（地址随便选，没有影响）。
 
-# 构造最终的输入文件
+# Ⅵ、构造最终的输入文件
 ```
 #!/usr/bin/python
 shellcode = ("\xFC\x33\xD2\xB2\x30\x64\xFF\x32\x5A\x8B"
@@ -131,7 +134,7 @@ f.close()
 
 ![](http://ww3.sinaimg.cn/large/005CA6ZCgw1ez0pdv48mlj30bo04cwez.jpg)
 
-# 参考文献
+# Ⅶ、参考文献
 <https://www.corelan.be/index.php/2009/07/19/exploit-writing-tutorial-part-1-stack-based-overflows/>
 [exploit编写笔记1——基于栈的溢出](http://terenceli.github.io/%E6%8A%80%E6%9C%AF/2014/03/16/exploit-buffer-overflow/)
 

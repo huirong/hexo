@@ -1,4 +1,4 @@
-title: Intel Pin 4 ：示例（再续）
+title: Intel Pin 2 ：示例（再续）
 date: 2016-01-10 10:47:17
 tags: Pin
 ---

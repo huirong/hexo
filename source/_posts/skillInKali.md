@@ -1,6 +1,7 @@
 title: Kali使用小技巧--屏幕截图
 date: 2015-03-24 19:44:14
 tags: kali
+categories: kali
 ---
 写博客，当然少不了图片，kali屏幕截图快捷键
 <!-- more -->

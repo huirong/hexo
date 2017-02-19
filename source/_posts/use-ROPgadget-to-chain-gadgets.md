@@ -1,12 +1,13 @@
 title: 使用ROPgadget构建gadgets链，实现ROP攻击
 date: 2015-06-12 15:34:53
-tags:  
-- 缓冲区溢出
+tags: 
+- 缓冲区溢出 
 - ROP
+categories: ROP
 ---
 上篇博客简单介绍了ROPgadget，现在我们就来小试牛刀
 <!-- more -->
-#C程序
+# I、C程序
 ```
 #include <string.h>
 #include <stdio.h>
@@ -25,7 +26,7 @@ int main(int argc, char** argv){
 ```
 gcc hello.c -o hello -static -g -fno-stack-protector
 ```
-#使用ROPgadget构建gadget链
+# II、使用ROPgadget构建gadget链
 ROPgadget的安装[上篇博客](http://huirong.github.io/2015/06/12/ROPgadget/)已经介绍了,这里不赘述。
 ```
 ropgadget --binary hello --ropchain
@@ -78,25 +79,25 @@ print p
 ```
 <font color="red">注意：要在gadget之前添加 p += 'a'*52</font>
 原因：使函数的返回地址指向第一个gadget
-#使用gdb分析内存
+# III、使用gdb分析内存
 ```
 gdbtui hello
 ```
-###1、添加断点，设置参数
+## ① 添加断点，设置参数
 根据自己喜欢在程序某个地方设置断点，我一般设置在主函数处
 运行时参数为 ./exploit.py 的运行结果
 ![](http://ww3.sinaimg.cn/large/005CA6ZCjw1et1d063ftej30px0fq0yj.jpg)
-###2、查看寄存器
+## ② 查看寄存器
 当运行完strcpy()函数后，查看寄存器情况，主要留意esp  ebp的值
 ![](http://ww3.sinaimg.cn/large/005CA6ZCjw1et1d0cngncj30n80fp43t.jpg)
-###3、查看内存情况
+## ③ 查看内存情况
 ebp为0xbffff288，则返回地址在0xbffff28c处，可以发现此时返回地址是第一个gadget的起始地址处
 <font color="red">p += 'a'*52 是为了覆盖缓冲区，直到返回地址处</font>
 ![](http://ww1.sinaimg.cn/large/005CA6ZCjw1et1d0lh38xj30nr05rads.jpg)
-#运行结果
+# IV、运行结果
 ```
 ./hello "$(./exploit.py)"
 ```
 ![](http://ww2.sinaimg.cn/large/005CA6ZCjw1et1d0ryguaj30fe016t8q.jpg)
-#参考文献
+# V、参考文献
 [use ROPgadget to chain gadgets](https://hwchen18546.wordpress.com/2014/07/15/rop-use-ropgadget-to-chain-gadgets/)

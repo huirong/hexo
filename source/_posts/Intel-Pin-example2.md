@@ -2,11 +2,11 @@ title: Intel Pin 2 ：示例（续）
 date: 2016-01-07 16:53:54
 tags: Pin
 ---
- 本文是[上篇文章]()的续集。
+ 本文是[上篇文章](http://huirong.github.io/2015/12/30/Intel-Pin-example/)的续集。
  <!-- more -->
  
 # Detecting the Loading and Unloading of Images (Image Instrumentation)
-下面的例子展示，每当加载或卸载镜像时，输出访问文件轨迹。此例仅做教学，并无实际意义。
+下面的例子展示，每次加载或卸载镜像时，输出访问文件轨迹。此例仅做教学，并无实际意义。
 
 命令和结果：
 ```
@@ -16,7 +16,7 @@ tags: Pin
 
 ![](http://ww3.sinaimg.cn/large/005CA6ZCgw1ezru15kndlj30k80kogoo.jpg)
 
-此例子在 source/tools/ManualExamples/imageload.cpp
+源码详见 source/tools/ManualExamples/imageload.cpp
 
 ```
 //
@@ -100,7 +100,7 @@ int main(int argc, char * argv[])
 ```
 
 # More Efficient Instruction Counting (Trace Instrumentation)
-上篇文章第一个例子 Simple Instruction Count (Instruction Instrumentation) ，在每条指令前插入一条call指令，计算执行过的指令数。本节介绍一种更高效的方法，在 instrumentation阶段，计算一个BBL中的指令数，然后将每个BBL指令数累加。
+上篇文章第一个例子 [Simple Instruction Count (Instruction Instrumentation)](http://huirong.github.io/2015/12/30/Intel-Pin-example/) ，在每条指令前插入一个函数，计算执行过的指令数。本节介绍一种更高效的方法，在插桩阶段，计算一个BBL中的指令数，然后累加每个BBL指令数。
 
 命令和结果：
 ```
@@ -110,7 +110,7 @@ cat inscount.out
 
 ![](http://ww1.sinaimg.cn/large/005CA6ZCgw1ezruetz3f1j30k30ei76c.jpg)
 
-本例源码在 source/tools/ManualExamples/inscount1.cpp
+源码参见 source/tools/ManualExamples/inscount1.cpp
 ```
 #include <iostream>
 #include <fstream>

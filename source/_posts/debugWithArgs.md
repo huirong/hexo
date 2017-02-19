@@ -1,6 +1,9 @@
 title: gdb和insight debugger调试带参数程序
 date: 2015-05-17 15:54:46
-tags: 调试器
+tags: 
+- 调试器
+- Linux
+categories: 调试器
 ---
 gdb --args ./testprg arg1 arg2 
 <!-- more -->

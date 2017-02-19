@@ -1,39 +1,31 @@
-title: '抓取scrapy中文文档(我的第一个爬虫)'
+title: 抓取scrapy中文文档(我的第一个爬虫)
 date: 2014-05-22 19:31
-tags: 爬虫
+tags:
+- 爬虫
+- python
+categories:
+- 爬虫
 ---
-
-
-##1.新建scrapy项目
-<!--more-->
-
-      说明:本文档默认大家已经安装scripy,如果还没,请参考[http://doc.scrapy.org/en/latest/intro/install.html](http://doc.scrapy.org/en/latest/intro/install.html)
-
-```python
+# I、新建scrapy项目
+<font color="red">Tips：</font>本文档默认大家已经安装scripy，如果还没，请参考[Installation guide](http://doc.scrapy.org/en/latest/intro/install.html)
+```
 scrapy startproject scrapyDoc
 ```
-
-
-##2.新建spider
-
-    1) 进入项目 
-```python
+# II、新建spider
+## ① 进入项目 
+```
 cd scrapyDoc
 ```
-
-    2) 新建spider
-
-```python
+## ② 新建spider
+```
 scrapy genspider ScrapyDoc scrapy-chs.readthedocs.org
 ```
 即: name = 'ScrapyDoc'
 allowed_domains = ['scrapy-chs.readthedocs.org']   
 
-##3)编写代码
-
-   1)item.py
- 
-```python
+# III、编写代码
+## ① item.py
+```
 # Define here the models for your scraped items
 #
 # See documentation in:
@@ -46,9 +38,8 @@ class ScrapydocItem(Item):
     link = Field()
     url = Field()
 ```
-   2)ScrapyDocSpider.py
-
-```python
+## ② ScrapyDocSpider.py
+```
 from scrapy.spider import BaseSpider
 from scrapy.selector import HtmlXPathSelector
 from scrapy.http import Request
@@ -106,34 +97,23 @@ class ScrapyDocSpider(BaseSpider):
 
         return
 
-
 ```
-
-
-##4)运行程序
-
-    1) 回到scrapy项目主目录
-    2) 新建一个文件夹(我习惯将所有下载的文件保存在一个单独文件夹下)
-
-```python
-mkdir doc
+# IV、运行程序
+1. 回到scrapy项目主目录
+2. 新建一个文件夹(我习惯将所有下载的文件保存在一个单独文件夹下)
+ ```
+ mkdir doc
+ ```
+3. 进入doc文件夹  
+ ```
+ cd doc
+ ```
+4. 运行程序
 ```
-    3)进入doc文件夹  
-
-```python
-cd doc
-```
-    4) 运行程序
-
-```html
 scrapy crawl ScrapyDoc 
 ```
-
-
-
-现在终于将scrapy中文文档保存在本地了,不过提取到的item还没存储,可以输入如下命令行保存item
-
-```html
+5. 现在终于将scrapy中文文档保存在本地了,不过提取到的item还没存储,可以输入如下命令行保存item
+```
 scrapy crawl ScrapyDoc -o s.json -t json
 ```
 

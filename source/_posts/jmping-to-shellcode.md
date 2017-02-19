@@ -1,19 +1,22 @@
 title: exploit编写教程2：跳转到shellcode
 date: 2015-12-16 10:23:48
-tags: exploit编写
+tags: 
+- 缓冲区溢出
+- exploit 编写
+categories: exploit 编写
 ---
 
 这个是基于SEH的exploit，SEH的原理大家去搜索，网上有很多资料，本文就不赘述了。
 <!-- more -->
 
-# 试验环境
+# I、试验环境
 - 测试平台： Microsoft Windows XP SP3
 - 漏洞软件：[Soritong MP3 player 1.0](http://terenceli.github.io/assets/file/seh-exploit/soritong10.exe
 )
 - 分析工具：Immunity Debugger
 - 漏洞描述：通过创建一个畸形皮肤文件将触发Soritong MP3 player 1.0溢出。
 
-#漏洞触发
+# II、漏洞触发
 用python创建一个ui.txt文件并放到skin\default文件夹下面
 ```
 #!/usr/bin/python
@@ -34,7 +37,7 @@ f.close()
 next seh是一个跳转到shellcode的指令，seh是一个程序自带模块的p/p/r地址。
 这里再解释一下pop pop ret指令的作用，当异常发生的时候，异常分发器创建自己的栈帧，会将EH handler成员压入新创的栈帧中，在EH结构中有一个域是EstablisherFrame。这个域指向异常注册记录(next seh)的地址并被压入栈中，当一个函数被调用的时候被压入的这个值都是位于ESP+8的地方。使用pop pop ret后，就会将next seh的地址放到EIP中。
 
-# 要精确定位 SEH 的偏移地址
+# III、要精确定位 SEH 的偏移地址
 需要构造特殊的唯一字符串模型来覆盖缓冲区
 Immunity Debugger再次加载Soritong，在命令行窗口输入：
 ```
@@ -86,7 +89,7 @@ f.close()
 
 ![](http://ww2.sinaimg.cn/large/005CA6ZCgw1ez1c47xmhvj307e032wep.jpg)
 
-# 查找 p/p/r 指令序列
+# Ⅳ、查找 p/p/r 指令序列
 再次加载目标程序，在命令行窗口输入：
 ```
 !mona rop
@@ -97,7 +100,7 @@ f.close()
 
 选用 0x1001dd61 （选地址时，要注意shellcode截断）
 
-# 构造最终的输入文件
+# V、构造最终的输入文件
 一个short jmp机器码是eb，跟上跳转距离，跳过6字节的short jmp机器码为eb 06。所以使用0xeb,0x06,0x90,0x90覆盖 next seh。
 
 最终的shellcode就是
@@ -149,7 +152,7 @@ f.close()
 
 ![](http://ww1.sinaimg.cn/large/005CA6ZCgw1ez1igyvjt5j30es08gtb2.jpg)
 
-# 参考文献
+# Ⅵ、参考文献
 [exploit编写笔记2——基于SEH的exploit](exploit编写笔记2——基于SEH的exploit)
 <https://www.corelan.be/index.php/2009/07/23/writing-buffer-overflow-exploits-a-quick-and-basic-tutorial-part-2/>
 

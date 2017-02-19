@@ -1,22 +1,26 @@
 title: win8下硬盘安装Kali双系统
 date: 2015-03-09 14:43:39
 tags: kali
+categories: kali
 ---
 
 只有一个常用U盘，不想用来装系统，只好使用硬盘安装，听说比较麻烦，确实比较麻烦，出了好多问题
 <!-- more -->
-#准备工作
-1. 下载kali镜像 <https://www.kali.org/downloads/>
-	我下载的是64位版本的  <http://cdimage.kali.org/kali-1.1.0/kali-linux-1.1.0-amd64.iso>，各位根据自己的实际情况下载
-2. 解压kali-linux-1.0.9a-amd64iso到某个盘根目录。（只需解压后的文件，不再需要iso）
-**注意：** 解压后，里面的文件全部要放到根目录下，而不是在一个文件夹里面
-3. windows下压缩一部分未使用的磁盘空间，到后面给kali linux使用
-	我用分区助手进行分区，一般20G左右就可以了，可根据实际情况选择大小，如下图
-	![](http://ww1.sinaimg.cn/large/005CA6ZCjw1eq0gae0r45j30hq080wfl.jpg)
-4. 安装EasyBCD,添加引导项
- 	打开 -> 条目 -> NeoGrub -> 安装 -> 配置
- 	![](http://ww2.sinaimg.cn/large/005CA6ZCgw1eq0gcir4w3j30g70dljum.jpg)
- 	在弹出的配置窗口粘贴下面代码
+# I、准备工作
+##  ① 下载 [kali镜像](https://www.kali.org/downloads/)
+我下载的是64位版本的  <http://cdimage.kali.org/kali-1.1.0/kali-linux-1.1.0-amd64.iso>，各位根据自己的实际情况下载
+## ② 解压 kali-linux-1.0.9a-amd64iso
+解压 kali-linux-1.0.9a-amd64iso 到某个盘根目录。（只需解压后的文件，不再需要iso）
+<font color="red">Tips：</font>解压后，里面的文件全部要放到根目录下，而不是在一个文件夹里面
+## ③ 分区
+windows下压缩一部分未使用的磁盘空间，到后面给kali linux使用
+我用分区助手进行分区，一般20G左右就可以了，可根据实际情况选择大小，如下图
+![](http://ww1.sinaimg.cn/large/005CA6ZCjw1eq0gae0r45j30hq080wfl.jpg)
+## ④ 添加引导项
+安装EasyBCD,添加引导项
+打开 -> 条目 -> NeoGrub -> 安装 -> 配置
+![](http://ww2.sinaimg.cn/large/005CA6ZCgw1eq0gcir4w3j30g70dljum.jpg)
+在弹出的配置窗口粘贴下面代码
 ```
 title Install kali　　
 root (hd0,X)! ]9 A- B0 K, ~8 ~: s- a
@@ -27,7 +31,7 @@ boot
     
 其中“X”替换为你的iso解压目录，想了解（hd0,X）格式，可以百度一下，这里就不再多说了。
 
-#安装kali
+# II、安装kali
 1. 重启，进入live模式，点击左上角的appication -> System tools -> install kali,
 开始安装kali
 ![](http://ww1.sinaimg.cn/large/005CA6ZCgw1eq0gdi4rzzj31kw16odxp.jpg)
