@@ -26,7 +26,7 @@ f.close()
 ```
 使用Easy RM to MP3 Converter加载这个crash.m3u文件，出错，信息如下：
 
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1ez0oss5wf7j30e5050759.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1ez0oss5wf7j30e5050759.jpg)
 
 从上图可知，溢出之后的返回地址是0x42424242，也就是’BBBB’，这说明要覆盖的EIP在25000到30000之间。下面使用Immunity的查件mona来进行精确定位。
 
@@ -38,7 +38,7 @@ f.close()
 !mona pattern_create 5000
 ```
 
-![](http://ww4.sinaimg.cn/large/005CA6ZCgw1ez0oyoodoej30i00dd0wn.jpg)
+![](https://ww4.sinaimg.cn/large/005CA6ZCgw1ez0oyoodoej30i00dd0wn.jpg)
 
 从Log data中可知，pattern文件在C:\D\mona-master\output\RM2MP3Converter\pattern.txt，
 提取出生成的5000个字符文件，放入p.txt，并替换crash.m3u中最后5000个字符。脚本如下：
@@ -56,7 +56,7 @@ f.close()
 
 再次打开目标软件加载test_pattern.m3u，程序崩溃：
 
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1ez0p2ebjfwj30e6040q3n.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1ez0p2ebjfwj30e6040q3n.jpg)
 
 此时EIP为：386b4237
 在命令行输入：
@@ -64,7 +64,7 @@ f.close()
 !mona pattern_offset 386b4237
 ```
 
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1ez0p476wlpj30mm0cp0wk.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1ez0p476wlpj30mm0cp0wk.jpg)
 
 我们看到EIP被修改的位置是25000 + 1103。
 此时我们再用如下脚本测试一下位置是否正确：
@@ -77,21 +77,21 @@ f.write(data)
 f.close()
 ```
 
-![](http://ww3.sinaimg.cn/large/005CA6ZCgw1ez0p83itkrj30e503ymxw.jpg)
+![](https://ww3.sinaimg.cn/large/005CA6ZCgw1ez0p83itkrj30e503ymxw.jpg)
 
 我们可以看到，EIP现在是4个B，偏移正确，下面就是如何修改 EIP
 
 # Ⅳ、寻找shellcode存放的地址空间
 再次使用上面.m3u文件，崩溃时，打开栈的窗口
 
-![](http://ww3.sinaimg.cn/large/005CA6ZCgw1ez0pbcdfiqj30ap0cfdhq.jpg)
+![](https://ww3.sinaimg.cn/large/005CA6ZCgw1ez0pbcdfiqj30ap0cfdhq.jpg)
 
 我们看到在ESP此时为000FF730，EIP到这里还有4个字节。ESP开始用于存放shellcode。
 
 # V、查找jmp esp地址
 再次加载目标程序，F9之后Pause，在CPU窗口，右键 Search For ->All commands in All modules，在之后的窗口输入jmp esp。
 
-![](http://ww2.sinaimg.cn/large/005CA6ZCgw1ez0pcw5iv0j30mx03uabs.jpg)
+![](https://ww2.sinaimg.cn/large/005CA6ZCgw1ez0pcw5iv0j30mx03uabs.jpg)
 
 选一个7C874413（地址随便选，没有影响）。
 
@@ -132,7 +132,7 @@ f.close()
 ```
 使用Easy RM to MP3 Converter加载这个crash.m3u文件，OK，成功了！！！
 
-![](http://ww3.sinaimg.cn/large/005CA6ZCgw1ez0pdv48mlj30bo04cwez.jpg)
+![](https://ww3.sinaimg.cn/large/005CA6ZCgw1ez0pdv48mlj30bo04cwez.jpg)
 
 # Ⅶ、参考文献
 <https://www.corelan.be/index.php/2009/07/19/exploit-writing-tutorial-part-1-stack-based-overflows/>

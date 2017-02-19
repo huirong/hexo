@@ -62,7 +62,7 @@ main函数文件名本身是一个参数，因此在运行时，应该输入两�
 - （3）返回 atoi(第一个参数)/atoi(第二个参数)的绝对值
 
 ## ② 查看运行效果
-![](http://ww2.sinaimg.cn/large/005CA6ZCjw1esdajv6jf5j30ed0270t1.jpg)
+![](https://ww2.sinaimg.cn/large/005CA6ZCjw1esdajv6jf5j30ed0270t1.jpg)
 没有任何反应
 ## ③ 找漏洞
 最终目的是调用catcher()函数，执行system("/bin/sh");
@@ -70,6 +70,6 @@ main函数文件名本身是一个参数，因此在运行时，应该输入两�
 不知大家是否记得整数的表示范围呢，32位操作系统：-2^31~2^31-1
 绝对值之间差1，bingo，这是漏洞点，最小负数除1，然后取绝对值，溢出了。。。。。
 
-![](http://ww1.sinaimg.cn/large/005CA6ZCjw1esdak4gsgtj30hp03mwf5.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCjw1esdak4gsgtj30hp03mwf5.jpg)
 
 PS：相信大家都看到了，还有个level02_alt.c函数，你也可以找这个函数的漏洞来获取下一关的密码，大家自己试试，我不写博客了。。。。。。

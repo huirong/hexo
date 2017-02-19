@@ -24,7 +24,7 @@ return 0;
 }
 ```
 ## ② 执行结果：
-![](http://ww4.sinaimg.cn/large/005CA6ZCgw1esldar1lq1j30i801kglq.jpg)
+![](https://ww4.sinaimg.cn/large/005CA6ZCgw1esldar1lq1j30i801kglq.jpg)
 ## ③ 分析结果
 welcome level5，说明系统是在level5下执行的whoami命令，而我们想要的是在level5下执行 cat /home/level5/.pass 命令，查看level5密码
 程序不需要任何输入，我们不能构造输入；不能改变源代码，因此不能在popen中添加命令
@@ -42,21 +42,21 @@ which命令的作用是，在PATH变量指定的路径中，搜索某个系统�
 ```
 which whoami
 ```
-![](http://ww4.sinaimg.cn/large/005CA6ZCjw1esldtip2x7j30k301jt8t.jpg)
+![](https://ww4.sinaimg.cn/large/005CA6ZCjw1esldtip2x7j30k301jt8t.jpg)
 ## ② 构造PATH并验证是否成功
 自定义whoami内容：
-![](http://ww3.sinaimg.cn/large/005CA6ZCgw1esldn58eobj30k403n3zw.jpg)
+![](https://ww3.sinaimg.cn/large/005CA6ZCgw1esldn58eobj30k403n3zw.jpg)
 
 赋予执行权限
-![](http://ww4.sinaimg.cn/large/005CA6ZCgw1esldo6oa1kj30k40230t9.jpg)
+![](https://ww4.sinaimg.cn/large/005CA6ZCgw1esldo6oa1kj30k40230t9.jpg)
 
 添加新的whoami命令路径：
-![](http://ww4.sinaimg.cn/large/005CA6ZCjw1esldp2b06jj30k302ldgx.jpg)
+![](https://ww4.sinaimg.cn/large/005CA6ZCjw1esldp2b06jj30k302ldgx.jpg)
 
 再次查看whoami路径：
-![](http://ww3.sinaimg.cn/large/005CA6ZCjw1esldpzi8w0j30k301it8t.jpg)
+![](https://ww3.sinaimg.cn/large/005CA6ZCjw1esldpzi8w0j30k301it8t.jpg)
 
 ## ③ 查看密码
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1esldqe3qs3j30k2012dfx.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1esldqe3qs3j30k2012dfx.jpg)
 密码：nSwmULj2LpDnRGU2
 

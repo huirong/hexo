@@ -43,14 +43,14 @@ int main(int argc, char** argv){
 ```
 ### 2、编译运行这个程序
 
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1ez44ngew29j305a02uglm.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1ez44ngew29j305a02uglm.jpg)
 
 <font color="red">Tips：</font>MessageBox 函数在user32.dll中，Dev C++需要手动加载此库
 
 ### 3、查看可执行文件
 使用 Immunity Debugger 打开刚生成的可执行文件a.exe，main函数如下：
 
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1ez44sumlukj30kh08s41o.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1ez44sumlukj30kh08s41o.jpg)
 
 ### 4、分析
 - push ebp 和mov ebp，esp 指令是用来设置堆栈的一部分指令。我们在自己的shellcode里不需要他们，因为我们会在一个已经运行的程序里运行我们的shellcode，我们假设堆栈已经被正确的设置好了。（这可能是不对的，在实际生活中，你需要调节寄存器/堆栈来使你的shellcode 工作，但这个暂时超出讨论的范围）。
@@ -61,11 +61,11 @@ int main(int argc, char** argv){
 1. 改变字符串（“Corelan”作为标题，“You have been pwned by Corelan”作为文本）放在栈中的方式。在我们的例子里，这些字符串是从C 程序的.data 节中取出来的。但是当我们exploit 另一个程序时，我们不能用特定程序的.data 节（因为它会包含一些其他的东西）。因此我们需要自己把字符串放到栈中，然后把指向字符串的指针传递给MessageBoxA 函数。
 2. 找到MessageBoxA 的地址然后直接调用。Immunity Debugger打开a.exe，右键 search for -> Name in all Modules
 
-![](http://ww4.sinaimg.cn/large/005CA6ZCgw1ez454c096oj30i60dtae7.jpg)
+![](https://ww4.sinaimg.cn/large/005CA6ZCgw1ez454c096oj30i60dtae7.jpg)
 
 查找MessageBox的地址
 
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1ez455hw52xj30ch02haai.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1ez455hw52xj30ch02haai.jpg)
 
 MessageBox的地址为：0x77D507EA
 <font color="red">Tips：</font>这个地址将会和其他版本的操作系统上的地址不一样
@@ -153,7 +153,7 @@ sub ascii_to_hex ($)
 
 例子：
 
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1ez45cz5ovdj30i80c3gnz.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1ez45cz5ovdj30i80c3gnz.jpg)
 
 只把文本入栈是不够的。MessageBoxA 函数（就像其他的windows API 函数）希望得到指向文本的指针，而不是文本自身。因此我们必须把这个考虑进去。其他的两个参数（hWnd和ButtonType）不要是指针，只要设为0 就行了。因此我们需要对这两个参数用不同的方法。
 ```
@@ -174,7 +174,7 @@ int MessageBox(
 
 除了这个之外，当我们在user32.dll 中看MessageBox 函数时，我们可以看到：
 
-![](http://ww3.sinaimg.cn/large/005CA6ZCgw1ez45h270fnj30k408w77f.jpg)
+![](https://ww3.sinaimg.cn/large/005CA6ZCgw1ez45h270fnj30k408w77f.jpg)
 
 明显参数是从一个位置指向EBP 的偏移处（从EBP+8 到EBP+14）。然后EBP 是从堆栈中弹出的ESP 的值0x77D507EA。因此意味着我们必须确认我们的四个参数被精确定位。这意味着，基于我们将字符串入栈的方式，我们要在跳转到MessageBox 这个函数之前再将4 个字节入栈。（只要在调试器里调试一下，你就会知道要做什么）。
 
@@ -230,11 +230,11 @@ int main(int argc, char **argv){
 
 <font color="red">Tips：</font>你可以通过简单的指令（Immunity Debugger：mona）来得到机器码
 
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1ez45k9ksurj30c303yjrw.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1ez45k9ksurj30c303yjrw.jpg)
 
 最终弹出对话框
 
-![](http://ww2.sinaimg.cn/large/005CA6ZCgw1ez45n4ake9j305c02wmx6.jpg)
+![](https://ww2.sinaimg.cn/large/005CA6ZCgw1ez45n4ake9j305c02wmx6.jpg)
 
 # Immunity Debugger分析
 

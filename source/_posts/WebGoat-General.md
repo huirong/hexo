@@ -36,7 +36,7 @@ Firebug 是Firefox 下的一个插件,能够调试所有网站语言,如HTML,CSS
 示信息、HTTP 请求参数、HTTP 请求 Cookies 。您也可以在首次使用时尝
 试使用工具WebScarab。
 
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1f7lcb90i5fj30gr040q3a.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1f7lcb90i5fj30gr040q3a.jpg)
 
 ## 2.2 Http 工作原理
 所有的HTTP 传输遵循同样的通用格式，每个客户端的请求和服务端的响应都有三个部分:  <font color="red"> 请
@@ -52,19 +52,19 @@ CGI 程序。
 - 在浏览器中手动配置代理，然后启动 WebScarab：
     <font color="red"> 代理端口为 8008，我刚开始写错了，一直拦截不到信息(╯﹏╰) </font>
 
-    ![](http://ww3.sinaimg.cn/large/005CA6ZCgw1f7lx3ageg0j30f50hcmzc.jpg)
+    ![](https://ww3.sinaimg.cn/large/005CA6ZCgw1f7lx3ageg0j30f50hcmzc.jpg)
     
 - 然后在 WebScarab 的 Intercept 中选取 Intercept requests ，设置拦截请求：
     
-    ![](http://ww3.sinaimg.cn/large/005CA6ZCgw1f7lxbj6sfqj30hz0eoq4g.jpg)
+    ![](https://ww3.sinaimg.cn/large/005CA6ZCgw1f7lxbj6sfqj30hz0eoq4g.jpg)
 
 - 在输入框中输入你的名字，点击【Go!】按钮。然后观察 WebScarab 的新窗口中。
     
-    ![](http://ww3.sinaimg.cn/large/005CA6ZCgw1f7lx9mqoe4j30i20eqq5r.jpg)
+    ![](https://ww3.sinaimg.cn/large/005CA6ZCgw1f7lx9mqoe4j30i20eqq5r.jpg)
 
 - 回到浏览器，页面提示成功完成本课程，左侧菜单栏看到醒目的绿色图标——过关标志。
     
-    ![](http://ww2.sinaimg.cn/large/005CA6ZCgw1f7lxqx5enhj30lz0bf77d.jpg)
+    ![](https://ww2.sinaimg.cn/large/005CA6ZCgw1f7lxqx5enhj30lz0bf77d.jpg)
 
 OK，果然第一个课程很简单，感觉主要是为了熟悉 WebGoat 环境 o(〃'▽'〃)o
 

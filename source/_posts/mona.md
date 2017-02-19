@@ -16,11 +16,11 @@ categories: 调试器
 ```
 生成结果在 C:\D\mona-master\output\c ，log data中有显示
 
-![](http://ww4.sinaimg.cn/large/005CA6ZCgw1ez422rhcvwj30ho05gt9v.jpg)
+![](https://ww4.sinaimg.cn/large/005CA6ZCgw1ez422rhcvwj30ho05gt9v.jpg)
 
 以下是rop.txt中的内容
 
-![](http://ww2.sinaimg.cn/large/005CA6ZCgw1ez424wnmi4j30vb048myt.jpg)
+![](https://ww2.sinaimg.cn/large/005CA6ZCgw1ez424wnmi4j30vb048myt.jpg)
 
 # Ⅱ、<font color="blue">查找JMP ESP,CALL ESP, push esp;ret</font>
 命令：
@@ -30,7 +30,7 @@ categories: 调试器
 ```
 结果：
 
-![](http://ww3.sinaimg.cn/large/005CA6ZCgw1ez4293rxj5j30i70by782.jpg)
+![](https://ww3.sinaimg.cn/large/005CA6ZCgw1ez4293rxj5j30i70by782.jpg)
 
 # Ⅲ、<font color="blue">计算SEH溢出长度</font>
 ## ① 生成溢出字符串
@@ -42,7 +42,7 @@ categories: 调试器
 5000为字符串长度
 结果：
 
-![](http://ww2.sinaimg.cn/large/005CA6ZCjw1ez42ed5d1jj30k404ugne.jpg)
+![](https://ww2.sinaimg.cn/large/005CA6ZCjw1ez42ed5d1jj30k404ugne.jpg)
 
 使用该字符串尝试溢出，得到seh的值为:35744134
 ## ② 计算溢出长度
@@ -50,7 +50,7 @@ categories: 调试器
 ```
 !mona pattern_offset 35744134
 ```
-![](http://ww1.sinaimg.cn/large/005CA6ZCjw1ez42k4ke5jj30ef04wwfs.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCjw1ez42k4ke5jj30ef04wwfs.jpg)
 nseh的偏移为：584，则seh handler的偏移：584 + 4 =588
 
 # Ⅳ、<font color="blue">汇编指令转机器码</font>
@@ -58,7 +58,7 @@ nseh的偏移为：584，则seh handler的偏移：584 + 4 =588
 ```
 !mona assemble/asm –s 汇编指令（多个指令用#分隔）
 ```
-![](http://ww4.sinaimg.cn/large/005CA6ZCgw1ez42uxxyxfj30c303yjrw.jpg)
+![](https://ww4.sinaimg.cn/large/005CA6ZCgw1ez42uxxyxfj30c303yjrw.jpg)
 
 # V、参考文献
 [Immunity Debugger-mona插件使用](http://www.hack80.com/thread-21042-1-1.html)

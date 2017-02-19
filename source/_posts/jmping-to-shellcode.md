@@ -28,7 +28,7 @@ f.close()
 ```
 打开Soritong，可以看到程序闪退。
 使用Immunity Debugger加载Soritong，F9运行，然后查看SEH链（view -> SEH chain），发现next SEH和SEH handler都被 A 覆盖了
-![](http://ww4.sinaimg.cn/large/005CA6ZCgw1ez1aw1va0oj307f03pglt.jpg)
+![](https://ww4.sinaimg.cn/large/005CA6ZCgw1ez1aw1va0oj307f03pglt.jpg)
 
 当异常发生时，程序会跳转到SEH handler去执行，通过将这个handler的值设置为程序自带模块的一个pop/pop/ret地址，能够实现程序跳转到next seh pointer去，在next seh中需要做的就是跳转到shellcode执行。shellcode的布局大致如下：
 ```
@@ -44,7 +44,7 @@ Immunity Debugger再次加载Soritong，在命令行窗口输入：
 !mona create_pattern 5000
 ```
 
-![](http://ww3.sinaimg.cn/large/005CA6ZCgw1ez1b8xtm4nj30k404ugne.jpg)
+![](https://ww3.sinaimg.cn/large/005CA6ZCgw1ez1b8xtm4nj30k404ugne.jpg)
 
 从Log data中可知，pattern文件在C:\D\mona-master\output\Soritong\pattern.txt，
 提取出生成的5000个字符文件，放入p.txt，并替换ui.txt中的5000个字符。脚本如下：
@@ -62,7 +62,7 @@ f.close()
 将生成的ui.txt覆盖skin\default中的ui.txt
 在Immunity Debugger中查看SEH chain：
 
-![](http://ww3.sinaimg.cn/large/005CA6ZCjw1ez1bo95bd0j307f02dmxd.jpg)
+![](https://ww3.sinaimg.cn/large/005CA6ZCjw1ez1bo95bd0j307f02dmxd.jpg)
 
 nseh 的值为：35744134 ，在命令行输入
 ```
@@ -70,7 +70,7 @@ nseh 的值为：35744134 ，在命令行输入
 ```
 查找nseh偏移
 
-![](http://ww4.sinaimg.cn/large/005CA6ZCgw1ez1bq0ehlzj30ef04wwfs.jpg)
+![](https://ww4.sinaimg.cn/large/005CA6ZCgw1ez1bq0ehlzj30ef04wwfs.jpg)
 
 nseh的偏移为：584，则seh handler的偏移：584 + 4 =588
 
@@ -87,7 +87,7 @@ f.write(data)
 f.close()
 ```
 
-![](http://ww2.sinaimg.cn/large/005CA6ZCgw1ez1c47xmhvj307e032wep.jpg)
+![](https://ww2.sinaimg.cn/large/005CA6ZCgw1ez1c47xmhvj307e032wep.jpg)
 
 # Ⅳ、查找 p/p/r 指令序列
 再次加载目标程序，在命令行窗口输入：
@@ -96,7 +96,7 @@ f.close()
 ```
 在rop.txt中查找合适的 p/p/r指令地址
 
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1ez1if82tnaj30el03njsl.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1ez1if82tnaj30el03njsl.jpg)
 
 选用 0x1001dd61 （选地址时，要注意shellcode截断）
 
@@ -150,7 +150,7 @@ f.close()
 
 运行目标程序，OK！！！！计算器成功弹出来了
 
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1ez1igyvjt5j30es08gtb2.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1ez1igyvjt5j30es08gtb2.jpg)
 
 # Ⅵ、参考文献
 [exploit编写笔记2——基于SEH的exploit](exploit编写笔记2——基于SEH的exploit)

@@ -15,7 +15,7 @@ __盲注__ 就是在服务器没有错误回显的时完成的注入攻击。服
 `http://localhost/sqli-labs-master/Less-8/?id=1'%23`
 执行的SQL语句
 `select * from tables where id = '1'%23' limit 0,1`
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1f775iarqpdj30c803cwek.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1f775iarqpdj30c803cwek.jpg)
 
 ## 1.1 测试 SQL 漏洞
 如果构造如下条件语句：
@@ -23,13 +23,13 @@ __盲注__ 就是在服务器没有错误回显的时完成的注入攻击。服
 实际执行的SQL语句：
 `select * from tables where id = '1' and 1=0%23' limit 0,1`
 因为 "and 1=0" 为false，所以这条SQL语句的 "and" 条件永远无法成立。对Web应用来说，也不会将结果返回给用户，攻击者看到的页面结果将为空或者是一个出错的页面。
-![](http://ww2.sinaimg.cn/large/005CA6ZCgw1f775iypxzdj30c803ca9z.jpg)
+![](https://ww2.sinaimg.cn/large/005CA6ZCgw1f775iypxzdj30c803ca9z.jpg)
 
 ## 1.2 确认 SQL 漏洞
 为了进一步确认注入是否存在，必须再次验证这个过程。因为一些处理逻辑或安全功能，在攻击者构造异常请求时，也可能会导致页面返回不正常。攻击者继续构造如下请求：
 `http://localhost/sqli-labs-master/Less-8/?id=1' and 1=1%23`
 当攻击者构造条件 "and 1=1" 时，如果页面正常返回了，则说明 SQL 语句的 "and" 成功执行，那么久可以判断 "id" 参数存在 SQL 注入漏洞。
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1f775jqhx1kj30c803c3ym.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1f775jqhx1kj30c803c3ym.jpg)
 
 <font color="red">盲注工作原理：虽然服务器关闭了错误回显，但攻击者通过简单的条件判断，在对比页面返回结果的差异，就可以判断出 SQL 注入漏洞是否存在</font>
 
@@ -48,13 +48,13 @@ SQL 中的 substring 函数是用来抓出一个栏位资料中的其中一部�
 SUBSTR(str, pos) | 从 str 中，选出所有从第 pos 位置开始的字元。请注意，这个语法不适用于 SQL Server 上。
 SUBSTR(str, pos, len) | 从 str 中的第 pos 位置开始，选出接下去的 len 个字元。
 
-![](http://ww4.sinaimg.cn/large/005CA6ZCgw1f775xbbk66j30c803jaao.jpg)
+![](https://ww4.sinaimg.cn/large/005CA6ZCgw1f775xbbk66j30c803jaao.jpg)
 
 `SELECT substr(email_id,3) FROM `emails` WHERE id=1`
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1f775zhclgtj30c8067dg1.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1f775zhclgtj30c8067dg1.jpg)
 
 `SELECT substr(email_id,0,3) FROM `emails` WHERE id=1`
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1f7760qfdspj30c806oaaa.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1f7760qfdspj30c806oaaa.jpg)
 
 ### 2.1.1 assci
 ascii()函数将字符转换成其对应的ascii码，而char()函数将数字转换成对应的acscii码字符。

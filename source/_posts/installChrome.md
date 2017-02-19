@@ -10,7 +10,7 @@ categories: kali
 # I、下载chrome安装包
 到官网上下载 [chrome安装包](https://www.google.com/intl/zh-CN/chrome/browser/desktop/index.html)
 选择合适的安装包
-![](http://ww3.sinaimg.cn/large/005CA6ZCjw1eqh1mga2b3j30lo0gm0uj.jpg)
+![](https://ww3.sinaimg.cn/large/005CA6ZCjw1eqh1mga2b3j30lo0gm0uj.jpg)
 # II、安装
  - 进入到.deb的目录，使用命令行安装
  ```
@@ -26,7 +26,7 @@ categories: kali
  ```
  在文件末尾的代码处添加  
  	--user-data-dir
- ![](http://ww1.sinaimg.cn/large/005CA6ZCjw1eqh1q3bqmzj30kf029aaa.jpg)
+ ![](https://ww1.sinaimg.cn/large/005CA6ZCjw1eqh1q3bqmzj30kf029aaa.jpg)
 ok了，可以正常使用了
 # III、参考文献
 [Kali linux 安装chrome](http://blog.csdn.net/change518/article/details/18556625)

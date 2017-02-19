@@ -20,7 +20,7 @@ tags: exploit编写笔记
 
 在XP SP3 上，ExitProcess（）这个API 能在0x7c81cafa 地址处找到:
 
-![](http://ww4.sinaimg.cn/large/005CA6ZCjw1ez681dbpktj30ct07yq4q.jpg)
+![](https://ww4.sinaimg.cn/large/005CA6ZCjw1ez681dbpktj30ct07yq4q.jpg)
 
 因此为了使shellcode 正常退出，我们必须把下面的指令加到shellcode 的底部，在MessageBox 函数被调用之后正常退出
 ```

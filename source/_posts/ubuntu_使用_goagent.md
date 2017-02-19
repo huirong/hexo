@@ -25,13 +25,13 @@ sudo apt-get install python-vte
 
 ## II、配置 chrome 浏览器 
 1. 进入 local 文件夹，将 SwitchySharp_1_9_52.crx  拖入扩展程序安装插件
- ![](http://img.blog.csdn.net/20140513192203093)
+ ![](https://img.blog.csdn.net/20140513192203093)
 2. 此时浏览器右上角 就有goagent 图标 ，右击图标，单击选项
- ![](http://img.blog.csdn.net/20140513192344937)
+ ![](https://img.blog.csdn.net/20140513192344937)
 3. 点击导入/导出 -> 从文件恢复   将SwitchyOptions.bak导入（此为配置文件）
-![](http://img.blog.csdn.net/20140513192447578)
+![](https://img.blog.csdn.net/20140513192447578)
 4. 点击浏览器 设置 -> 高级设置，选择 HTTPS/SSL 证书管理  将local下的CA.crt 导入
-![](http://img.blog.csdn.net/20140513192546937)
+![](https://img.blog.csdn.net/20140513192546937)
 
           
  

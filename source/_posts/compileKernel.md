@@ -40,7 +40,7 @@ make mrproper
 make menuconfig
 ```
 出现图形化界面
-![](http://ww3.sinaimg.cn/large/005CA6ZCjw1ereo9ppwjcj30ke0dmwg9.jpg)
+![](https://ww3.sinaimg.cn/large/005CA6ZCjw1ereo9ppwjcj30ke0dmwg9.jpg)
 说一下配置：
 对每一个配置选项，用户有三种选择，它们分别代表的含义如下：
 <*>或[*]——将该功能编译进内核
@@ -72,7 +72,7 @@ cp /usr/src/linux-3.12.6/System.map /boot/
  配置文件在/boot/grub2/grub.cfg
  gedit /boot/grub2/grub.cfg
  看到配置文件中有如下内容，说明内核已经添加到启动项了
- ![](http://ww2.sinaimg.cn/large/005CA6ZCjw1ereo9y7ugkj30i70es760.jpg)
+ ![](https://ww2.sinaimg.cn/large/005CA6ZCjw1ereo9y7ugkj30i70es760.jpg)
 
  OK，编译内核已经全部完成，可以重启电脑了。。。。。
  如果没有必要不要编译内核，需要很久啊O(∩_∩)O

@@ -118,7 +118,7 @@ Pin提供多种方法控制分析函数的执行顺序，可以通过插入操�
 head invocation.out
 ```
 
-![](http://ww3.sinaimg.cn/large/005CA6ZCgw1ezrwrmrpt8j30k509kzlc.jpg)
+![](https://ww3.sinaimg.cn/large/005CA6ZCgw1ezrwrmrpt8j30k509kzlc.jpg)
 
 源码参见 source/tools/ManualExamples/invocation.cpp
 ```
@@ -248,7 +248,7 @@ RTN_insertCall()可获得函数参数和返回地址。
 head malloctrace.out
 ```
 
-![](http://ww3.sinaimg.cn/large/005CA6ZCgw1ezrwzop5gjj30k4071q3o.jpg)
+![](https://ww3.sinaimg.cn/large/005CA6ZCgw1ezrwzop5gjj30k4071q3o.jpg)
 
 源码参见 source/tools/ManualExamples/malloctrace.cpp
 ```

@@ -69,11 +69,11 @@ sizeof(ExecuteFlags)); // 0x4
 如果我们能够模拟其中一种情况，结果会是怎么样的呢？答案是进程的DEP 被关闭！
 这里选择第一个条件进行尝试。我们来看一下Windows XP SP3 下LdrpCheckNXCompatibility 关闭DEP 的具体流程，以SafeDisc 为例。如图：
 
-![](http://ww3.sinaimg.cn/large/005CA6ZCjw1ez5zr0kgu0j30s40e2q5p.jpg)
+![](https://ww3.sinaimg.cn/large/005CA6ZCjw1ez5zr0kgu0j30s40e2q5p.jpg)
 
 现在我们知道LdrpCheckNXCompatibility 关闭DEP 的流程了，我们开始尝试模拟这个过程，我们将从0x7C93CD24 入手关闭DEP，这个地址可以通过OllyFindAddr 插件中的Disable DEP→Disable DEP <=XP SP3 来搜索，如图12.3.3 所示。
 
-![](http://ww3.sinaimg.cn/large/005CA6ZCgw1ez61fdorvkj30hk01374u.jpg)
+![](https://ww3.sinaimg.cn/large/005CA6ZCgw1ez61fdorvkj30hk01374u.jpg)
 
 <font color="red">由于只有 CMP AL，1 成立的情况下程序才能继续执行，所以我们需要一个指令将AL 修改为1。</font>
 
@@ -128,7 +128,7 @@ int main(){
 
 OllyFindAddr 插件的Disable DEP→Disable DEP <=XP SP3 搜索结果的Step2 部分就是符合要求的指令。搜索结果如图：
 
-![](http://ww4.sinaimg.cn/large/005CA6ZCjw1ez61j4s6a1j30gd033dhc.jpg)
+![](https://ww4.sinaimg.cn/large/005CA6ZCjw1ez61j4s6a1j30gd033dhc.jpg)
 
 为了避免执行strcpy 时shellcode 被截断，我们需要选择一个不包含0x00 的地址，本次实验中我们使用0x7C92E252 覆盖函数的返回地址。
 
@@ -147,7 +147,7 @@ charshellcode[]=
 
 然后编译程序，用OllyDbg 加载调试程序。在0x7C92E257，即MOV EAX,1 后边的RETN指令处暂停程序。观察堆栈可以看到此时ESP 指向test 函数返回地址的下方，而这个ESP 指向的内存空间存放的值将是RETN 指令要跳到的地址，如图：
 
-![](http://ww2.sinaimg.cn/large/005CA6ZCgw1ez620ebxdyj30ho0azdk5.jpg)
+![](https://ww2.sinaimg.cn/large/005CA6ZCgw1ez620ebxdyj30ho0azdk5.jpg)
 
 所以我们需要在这个位置放上0x7C93CD24 （若此处不理解，可参考第一张图，LdrpCheckNXCompatibility 关闭DEP 的具体流程）以便让程序转入关闭DEP 流程，我们为shellcode 添加4 个字节，并放置0x7C93CD24，如下所示。
 ```
@@ -164,13 +164,13 @@ charshellcode[]=
 
 重新编译程序后，用OllyDbg 重新加载程序，在0x7C93CD6F，即关闭DEP 后的RETN 4处下断点，然后让程序直接运行。但程序并没有像我们想象的那样在0x7C93CD6F 处中断，而是出现了异常。如图：
 
-![](http://ww2.sinaimg.cn/large/005CA6ZCgw1ez62bo0l8bj30hs0az78n.jpg)
+![](https://ww2.sinaimg.cn/large/005CA6ZCgw1ez62bo0l8bj30hs0az78n.jpg)
 
 程序现在需要对EBP-4 位置写入数据，但EBP 在溢出的时候被破坏了，目前EBP-4 的位置并不可以写入，所以程序出现了写入异常，所以我们现在的shellcode 布局是行不通的，在转入0x7C93CD24 前我们需要将EBP 指向一个可写的位置。
 
 我们可以通过类似PUSH ESP POP EBP RETN 的指令将EBP 定位到一个可写的位置，依然请出我们的OllyFindAddr 插件，我们可以在Disable DEP <=XP SP3 搜索结果的Setp3 部分查看当前内存中所有符合条件的指令，如图:
 
-![](http://ww3.sinaimg.cn/large/005CA6ZCgw1ez62eexcwzj30gv05u0vp.jpg)
+![](https://ww3.sinaimg.cn/large/005CA6ZCgw1ez62eexcwzj30gv05u0vp.jpg)
 
 <font color="red">Tips:</font> 第三步中的指令，可能刚加载程序时，为空，在程序运行到一定阶段，可能才有结果
 
@@ -193,7 +193,7 @@ charshellcode[]=
 重新编译程序后用OllyDbg 加载，在0x7C95683B 处，即CALL ZwSetInformationProcess时下断点，待程序中断后观察堆栈情况。
 如图所示，EBP-4 中的内容已经被冲刷掉，内容已经被修改为0x22，根据_KEXECUTE_OPTIONS 结构我们知道DEP 只和结构中的前4 位有关，只要前4 位为二进制代码为0100 就可关闭DEP，而0x22（00100010）刚刚符合这个要求，所以用0x22 冲刷掉EBP-4 处的值还是可以关闭DEP 的。
 
-![](http://ww3.sinaimg.cn/large/005CA6ZCgw1ez62o2leynj30hq0ax78f.jpg)
+![](https://ww3.sinaimg.cn/large/005CA6ZCgw1ez62o2leynj30hq0ax78f.jpg)
 
 虽然现在我们已经关闭了DEP，但是我们失去了进程的控制权。
 
@@ -202,7 +202,7 @@ charshellcode[]=
 
 我们可以使用带有偏移量的RETN 指令来达到增大ESP 的目的，如RETN 0x28 等指令可以执行RETN指令后再将ESP 增加0x28 个字节。我们可以通过OllyFindAddr 插件中的Overflowreturn address-> POP RETN+N 选项来查找相关指令，查找部分结果如图12.3.10 所示。
 
- ![](http://ww3.sinaimg.cn/large/005CA6ZCgw1ez63xe0c2jj30ff03etb6.jpg)
+ ![](https://ww3.sinaimg.cn/large/005CA6ZCgw1ez63xe0c2jj30ff03etb6.jpg)
 
  在搜索结果中选取指令时只有一个条件：不能对ESP 和EBP 有直接操作。否则我们会失去对程序的控制权。在这我们选择0x7C974A19 处的RETN 0x28 指令来增大ESP。我们对shellcode 重新布局，在关闭DEP 前加入增大ESP 指令地址。需要注意的是修正EBP 指令返回时带有的偏移量会影响后续指令，所以我们在布置shellcode 的时要加入相应的填充。
 ```
@@ -222,15 +222,15 @@ charshellcode[]=
 
 我们依然在0x7C93CD6F 处中断程序，注意千万不要在程序刚加载完就在0x7C93CD6F 下断点， 不然您会被中断到崩溃。我们建议您先在0x7C95683B 处， 即CALL ZwSetInformationProcess 时下断点，然后F7，进入函数，单步运行到0x7C93CD6F，堆栈情况如图12.3.11 所示。
 
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1ez642y1cszj30ho0b1n1c.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1ez642y1cszj30ho0b1n1c.jpg)
 
 可以看到，增大ESP 之后我们的关键数据都没有被破坏。执行完RETN 0x04 后ESP 将指向0x0012FEC4，所以我们只要在0x0012FE78 放置一条JMP ESP 指令就可让程序转入堆栈执行指令了。大家可以通过OllyFindAddr 插件中的Overflow return address→Find CALL/JMP ESP来搜索符合要求的指令，部分搜索结果如图12.3.12 所示。
 
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1ez646fsd8tj30ex02djt4.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1ez646fsd8tj30ex02djt4.jpg)
 
 本次实验我们选择0x7DC5C1B4 处的JMP ESP，然后我在0x0012FEC4 处放置一个长跳指令，让程序跳转到shellcode 的起始位置来执行shellcode，根据图12.3.11 中的内存状态，可以计算出0x0012FEC4 距离shellcode 起始位置有200 个字节，所以跳转指令需要回调205 个字节（200+5 字节跳转指令长度）。分析结束，我们开始布置shellcode，shellcode 布局如图12.3.13所示。
 
-![](http://ww4.sinaimg.cn/large/005CA6ZCgw1ez64a6x9j5j30jb038t93.jpg)
+![](https://ww4.sinaimg.cn/large/005CA6ZCgw1ez64a6x9j5j30jb038t93.jpg)
 
 代码如下所示
 ```
@@ -251,9 +251,9 @@ charshellcode[]=
 
 按照图 12.3.13 中布局布置好shellcode 后将程序重新编译，用OllyDbg 加载程序，我们建议您在0x7C93CD6F 处下断点，待程序中断后，我们按F8 键单步运行程序，并注意各指令对堆栈及程序流程的影响，理解这种shellcode 的布置思路。执行完JMP ESP 后就可以看到程序转入shellcode，如图12.3.14 所示。
 
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1ez648ldau6j30hq0b3djk.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1ez648ldau6j30hq0b3djk.jpg)
 
 继续运行程序就可以看到熟悉的对话框，如图12.3.15 所示。
 
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1ez615rdb3aj30ig0c1aao.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1ez615rdb3aj30ig0c1aao.jpg)
 

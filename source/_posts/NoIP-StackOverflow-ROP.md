@@ -42,7 +42,7 @@ Linux 系统调用参数存放于 ebx,edx,esi,edi，因此
     ```
     ps -aux | grep noip
     ```
-    ![](http://ww4.sinaimg.cn/large/005CA6ZCgw1f2excag2rij30r206ntc5.jpg)
+    ![](https://ww4.sinaimg.cn/large/005CA6ZCgw1f2excag2rij30r206ntc5.jpg)
 
     进程 pid : 6589
 
@@ -51,7 +51,7 @@ Linux 系统调用参数存放于 ebx,edx,esi,edi，因此
     ```
     cat /proc/6589/maps
     ```
-    ![](http://ww4.sinaimg.cn/large/005CA6ZCgw1f2exjrkobmj30pd0f1do1.jpg)
+    ![](https://ww4.sinaimg.cn/large/005CA6ZCgw1f2exjrkobmj30pd0f1do1.jpg)
 
 ## ② 调用 ropeme generate 函数
 系统库函数 /lib/i386-linux-gnu/i686/cmov/libc-2.19.so 包含丰富的 gadgets，足够组成 ROP exploit，因此选择搜索库函数 /lib/i386-linux-gnu/i686/cmov/libc-2.19.so。
@@ -61,13 +61,13 @@ Linux 系统调用参数存放于 ebx,edx,esi,edi，因此
 ```
 generate /lib/i386-linux-gnu/i686/cmov/libc-2.19.so 4
 ```
- ![](http://ww2.sinaimg.cn/large/005CA6ZCgw1f2exwnv2q3j30lw08cmzi.jpg)
+ ![](https://ww2.sinaimg.cn/large/005CA6ZCgw1f2exwnv2q3j30lw08cmzi.jpg)
 
 ## ③ 搜索 xor eax,eax;ret;
 ```
 search xor eax %
 ```
-![](http://ww2.sinaimg.cn/large/005CA6ZCgw1f2exzlzap0j30kb0entcl.jpg)
+![](https://ww2.sinaimg.cn/large/005CA6ZCgw1f2exzlzap0j30kb0entcl.jpg)
 
 结果集中的所有 gadgets 地址都是相对地址
 <font color="red">绝对地址 = 相对地址 + 库函数起始地址</font> 
@@ -124,7 +124,7 @@ print p
 ./NO-IP/noip-2.1.9-1/binaries/noip2-i686 -i "`./NO-IP/ropExp.py`"
 ```
 
-![](http://ww4.sinaimg.cn/large/005CA6ZCgw1f2ey6al4fbj30kd05habx.jpg)
+![](https://ww4.sinaimg.cn/large/005CA6ZCgw1f2ey6al4fbj30kd05habx.jpg)
 
 # V、参考文献
 [No-IP Dynamic Update Client (DUC) 2.1.9 - Local IP Address Stack Overflow](https://www.exploit-db.com/exploits/25411/)

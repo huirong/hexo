@@ -86,18 +86,18 @@ gdbtui hello
 ## ① 添加断点，设置参数
 根据自己喜欢在程序某个地方设置断点，我一般设置在主函数处
 运行时参数为 ./exploit.py 的运行结果
-![](http://ww3.sinaimg.cn/large/005CA6ZCjw1et1d063ftej30px0fq0yj.jpg)
+![](https://ww3.sinaimg.cn/large/005CA6ZCjw1et1d063ftej30px0fq0yj.jpg)
 ## ② 查看寄存器
 当运行完strcpy()函数后，查看寄存器情况，主要留意esp  ebp的值
-![](http://ww3.sinaimg.cn/large/005CA6ZCjw1et1d0cngncj30n80fp43t.jpg)
+![](https://ww3.sinaimg.cn/large/005CA6ZCjw1et1d0cngncj30n80fp43t.jpg)
 ## ③ 查看内存情况
 ebp为0xbffff288，则返回地址在0xbffff28c处，可以发现此时返回地址是第一个gadget的起始地址处
 <font color="red">p += 'a'*52 是为了覆盖缓冲区，直到返回地址处</font>
-![](http://ww1.sinaimg.cn/large/005CA6ZCjw1et1d0lh38xj30nr05rads.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCjw1et1d0lh38xj30nr05rads.jpg)
 # IV、运行结果
 ```
 ./hello "$(./exploit.py)"
 ```
-![](http://ww2.sinaimg.cn/large/005CA6ZCjw1et1d0ryguaj30fe016t8q.jpg)
+![](https://ww2.sinaimg.cn/large/005CA6ZCjw1et1d0ryguaj30fe016t8q.jpg)
 # V、参考文献
 [use ROPgadget to chain gadgets](https://hwchen18546.wordpress.com/2014/07/15/rop-use-ropgadget-to-chain-gadgets/)

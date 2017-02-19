@@ -9,7 +9,7 @@ categories: exploit 编写
 首次使用 [ropeme](https://github.com/packz/ropeme) 过程中，遇到 ImportError 问题，解决方案如下。
 <!--more-->
 # Ⅰ、问题
-![](http://ww3.sinaimg.cn/large/005CA6ZCjw1f36pui72zij30kd03o762.jpg)
+![](https://ww3.sinaimg.cn/large/005CA6ZCjw1f36pui72zij30kd03o762.jpg)
 ```
 star@ubuntu:~/glibc/CVE-2015-7547-master$ ../ropeme-master/ropeme/ropshell.py 
 Traceback (most recent call last):

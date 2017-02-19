@@ -51,7 +51,7 @@ alter database mydb character set utf8
  ```python
 show variables like 'character_set_%';
  ```
-![](http://img.blog.csdn.net/20140522222746375)
+![](https://img.blog.csdn.net/20140522222746375)
 
 然后自己去新建table(这里就不多说了)
 

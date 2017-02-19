@@ -20,7 +20,7 @@ autoreconf --force --install
 # 2 待解决问题
 ## 2.1 安装 libconfig
 安装过程会出现如下问题：
-![](http://ww2.sinaimg.cn/large/005CA6ZCjw1f5582ge5icj30k107qadf.jpg)
+![](https://ww2.sinaimg.cn/large/005CA6ZCjw1f5582ge5icj30k107qadf.jpg)
 
 需要安装 libconfig，下载 [libconfig](http://www.hyperrealm.com/libconfig/libconfig-1.5.tar.gz
 ) 安装包
@@ -33,7 +33,7 @@ sudo make install
 ```
 ## 2.2 安装 sqlite3
 安装完 libconfig 之后，又会出现如下问题，缺少 sqlite3 包
-![](http://ww2.sinaimg.cn/large/005CA6ZCgw1f558grmtpsj30k305ognw.jpg)
+![](https://ww2.sinaimg.cn/large/005CA6ZCgw1f558grmtpsj30k305ognw.jpg)
 
 安装 sqlite3 
 ```
@@ -74,13 +74,13 @@ sudo make install
  sudo cvechecker -r
  ```
 部分结果截图如下：
-![](http://ww1.sinaimg.cn/large/005CA6ZCjw1f55g7yrl64j30i80a8432.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCjw1f55g7yrl64j30i80a8432.jpg)
 
 # 5 参数解释
 ```
 cvechecker --help
 ```
-![](http://ww3.sinaimg.cn/large/005CA6ZCjw1f55gdhdxjnj30jx0ce44b.jpg)
+![](https://ww3.sinaimg.cn/large/005CA6ZCjw1f55gdhdxjnj30jx0ce44b.jpg)
 # 6 参考文献
 [cvechecker](https://github.com/sjvermeu/cvechecker)
 [cvechecker Installation](https://github.com/sjvermeu/cvechecker/wiki/Installation)

@@ -43,7 +43,7 @@ int main(int argc, char **argv, char **envp)
 }
 ```
 ## ② 执行结果
-![](http://ww2.sinaimg.cn/large/005CA6ZCgw1eslav1k4bwj30io027q3r.jpg)
+![](https://ww2.sinaimg.cn/large/005CA6ZCgw1eslav1k4bwj30io027q3r.jpg)
 ## ③ 分析结果
 最终要跳转到good()函数执行，调用 execl("/bin/sh", "sh", NULL);
 bad()函数的起始地址是0x80484a4，good()函数的起始地址是0x8048474
@@ -66,10 +66,10 @@ memset()可以将一段内存空间全部设置为特定的值，所以经常用
 【返回值】返回指向 ptr 的指针。
 # III、找漏洞
 ## ① 栈
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1eslavce0j0j30mc0c6776.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1eslavce0j0j30mc0c6776.jpg)
 ebp:0xbffffc88，esp:0xbffffc10，栈范围：0xbffffc10~0xbffffc88
 ## ② 内存
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1eslavkosj2j30nn093jwt.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1eslavkosj2j30nn093jwt.jpg)
 查看functionpointer的地址，分析其和buffer起始地址的距离
 functionpointer在buffer前定义，先入栈，在高地址，functionpointer（0x80484a4）的地址为0xbffffc7c
 buffer的起始地址为0xbffffc30，中间隔了76Byte
@@ -78,7 +78,7 @@ buffer的起始地址为0xbffffc30，中间隔了76Byte
 "$(python -c 'print "A"*76 + "t" ' )"
 （t的ascii码值：0x74）
 
-![](http://ww3.sinaimg.cn/large/005CA6ZCgw1eslavpqx9dj30k80350tk.jpg)
+![](https://ww3.sinaimg.cn/large/005CA6ZCgw1eslavpqx9dj30k80350tk.jpg)
 
 
 

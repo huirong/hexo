@@ -22,7 +22,7 @@ WebGoat 运行在带有java 虚拟机的平台上，因此需要安装 JDK。
 <font color="red"> 如果是在 Windows 下安装，可自行绕过此步骤，毕竟双击 exe 谁都会~~~~~ </font>
 
 我原装 JDK 如下：
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1f7l54687c4j30j5025wez.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1f7l54687c4j30j5025wez.jpg)
 
 JDK 版本太低，在后续运行 WebGoat 出错，所以需要升级。
 
@@ -31,7 +31,7 @@ JDK 版本太低，在后续运行 WebGoat 出错，所以需要升级。
 根据自己的机型选择对应的版本。
 
 将安装包移动到 `/usr/local/java` 目录下，并解压。
-![](http://ww3.sinaimg.cn/large/005CA6ZCgw1f7l4tebd2qj30gt02mq3e.jpg)
+![](https://ww3.sinaimg.cn/large/005CA6ZCgw1f7l4tebd2qj30gt02mq3e.jpg)
 
 ## 3.2 修改环境变量
 修改 `/etc/profile` 配置文件，在文件末尾添加如下代码，不要修改其他部分。
@@ -55,12 +55,12 @@ update-alternatives --config java
 
 最后一个 --config java 命令，shell会提示你选择哪个jdk作为默认的jdk，第一个带 * ，就是刚才设置的，直接enter就可以了。
 
-![](http://ww3.sinaimg.cn/large/005CA6ZCgw1f7l5azp2crj30s0045abh.jpg)
+![](https://ww3.sinaimg.cn/large/005CA6ZCgw1f7l5azp2crj30s0045abh.jpg)
 
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1f7l5b917d5j30s00633zw.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1f7l5b917d5j30s00633zw.jpg)
 
 ## 3.4 查看是否安装/升级成功
-![](http://ww4.sinaimg.cn/large/005CA6ZCgw1f7l5citwzzj30gy02lwes.jpg)
+![](https://ww4.sinaimg.cn/large/005CA6ZCgw1f7l5citwzzj30gy02lwes.jpg)
 说明安装/升级成功！！！！！
 
 # 4 安装 WebGoat
@@ -73,7 +73,7 @@ java -jar webgoat-container-7.0.1-war-exec.jar
 ```
 
 在浏览器访问 <http://localhost:8080/WebGoat>
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1f7l5i4d4kij30rz0ir405.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1f7l5i4d4kij30rz0ir405.jpg)
 
 可根据页面下方的用户名和密码登录 O(∩_∩)O~~
 

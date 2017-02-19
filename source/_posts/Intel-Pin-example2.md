@@ -14,7 +14,7 @@ tags: Pin
  cat imageload.out
 ```
 
-![](http://ww3.sinaimg.cn/large/005CA6ZCgw1ezru15kndlj30k80kogoo.jpg)
+![](https://ww3.sinaimg.cn/large/005CA6ZCgw1ezru15kndlj30k80kogoo.jpg)
 
 源码详见 source/tools/ManualExamples/imageload.cpp
 
@@ -108,7 +108,7 @@ int main(int argc, char * argv[])
 cat inscount.out
 ```
 
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1ezruetz3f1j30k30ei76c.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1ezruetz3f1j30k30ei76c.jpg)
 
 源码参见 source/tools/ManualExamples/inscount1.cpp
 ```

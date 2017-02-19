@@ -21,14 +21,14 @@ tags: 插装
 
 回到Pin，如果 /proc/sys/kernel/yama/ptrace_scope 的值设置为1sysctl kernel.yama.ptrace_scope=0，会有如下信息：
 
-![](http://ww2.sinaimg.cn/large/005CA6ZCgw1ezhya70r2tj30zm04j3zc.jpg)
+![](https://ww2.sinaimg.cn/large/005CA6ZCgw1ezhya70r2tj30zm04j3zc.jpg)
 
 为了允许调试程序，需要使用 sysctl 设置 /proc/sys/kernel/yama/ptrace_scope 的值
 ```
 sysctl kernel.yama.ptrace_scope=0
 ```
 
-![](http://ww2.sinaimg.cn/large/005CA6ZCgw1ezhyeydkzej30zo07n76x.jpg)
+![](https://ww2.sinaimg.cn/large/005CA6ZCgw1ezhyeydkzej30zo07n76x.jpg)
 
 OK！！！！可以成功运行Pin工具了。。。。
 

@@ -40,7 +40,7 @@ cd source/tools/ManualExamples
 
 cat inscount.out
 ```
-![](http://ww4.sinaimg.cn/large/005CA6ZCgw1ezqzh1lcl2j30nk0al0uu.jpg)
+![](https://ww4.sinaimg.cn/large/005CA6ZCgw1ezqzh1lcl2j30nk0al0uu.jpg)
 
 下例中的 KNOB 用于重定向输出，命令行选项 "-o <file_name>" ，添加在 tool 名称和"--"之间，如下所示：
 ```
@@ -130,7 +130,7 @@ int main(int argc, char * argv[])
 head itrace.out
 ```
 
-![](http://ww4.sinaimg.cn/large/005CA6ZCgw1ezr0c4mj07j30mr0enac6.jpg)
+![](https://ww4.sinaimg.cn/large/005CA6ZCgw1ezr0c4mj07j30mr0enac6.jpg)
 
 此示例在 source/tools/ManualExamples/itrace.cpp
 
@@ -208,7 +208,7 @@ int main(int argc, char * argv[])
 head pinatrace.out
 ```
 
-![](http://ww1.sinaimg.cn/large/005CA6ZCgw1ezr17kh5krj30k10ijmzn.jpg)
+![](https://ww1.sinaimg.cn/large/005CA6ZCgw1ezr17kh5krj30k10ijmzn.jpg)
 
 示例程序为 source/tools/ManualExamples/pinatrace.cpp
 ```
