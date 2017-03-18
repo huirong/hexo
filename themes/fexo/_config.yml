@@ -1,7 +1,7 @@
 # Blog info
 blog_name: Star
 slogan: 简单点，快乐点
-url: http://huirong.github.io
+url: https://huirongis.me
 
 # Set avatar (Absolute url and relative url) 设置头像
 avatar: /images/avatar.jpg
@@ -155,12 +155,12 @@ about:
 link:
   - name: jackroyal
     info: 我最喜欢笨笨
-    url: http://bblove.me/
-    avatar: http://ww3.sinaimg.cn/large/005CA6ZCgw1f7isnieoomj3085064gm6.jpg
+    url: https://bblove.me/
+    avatar: https://ww3.sinaimg.cn/large/005CA6ZCgw1f7isnieoomj3085064gm6.jpg
   - name: moon 的博客
     info: 她也喜欢我~~
-    url: http://moonmoonmoon.github.io/
-    avatar: http://ww4.sinaimg.cn/large/005CA6ZCgw1f7isleabh9j305k05kdfw.jpg
+    url: https://moonmoonmoon.github.io/
+    avatar: https://ww4.sinaimg.cn/large/005CA6ZCgw1f7isleabh9j305k05kdfw.jpg
   
 
 #project:

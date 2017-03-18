@@ -4,15 +4,15 @@
 
 # Site
 title: Star
-subtitle: 简单点，快了点
+subtitle: 简单点，快乐点
 description: jackroyal 博客 搁浅St 笨笨
 author: star
 language: zh-CN
 timezone:
 
 # URL
-## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://huirong.github.io/
+## If your site is put in a subdirectory, set url as 'https://yoursite.com/child' and root as '/child/'
+url: https://huirong.github.io/
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -86,13 +86,16 @@ feed:
   path: atom.xml
   limit: 20
 
-duoshuo_shortname: star
+duoshuo_shortname: huirong
 ## Themes: http://hexo.io/themes/
 theme: fexo
 
 # Deployment
 ## Docs: http://hexo.io/docs/deployment.html
 deploy:
-  type: git
+- type: git
   repo: https://github.com/huirong/huirong.github.io.git
+  branch: master
+- type: git
+  repo: git@huirongis.me:/home/git/huirong/blog.git
   branch: master
